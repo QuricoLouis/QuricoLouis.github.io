@@ -6,7 +6,7 @@
   <link href="http://quricolouis.github.io/atom.xml" rel="self"/>
   
   <link href="http://quricolouis.github.io/"/>
-  <updated>2021-08-12T02:43:43.531Z</updated>
+  <updated>2021-09-06T08:40:55.766Z</updated>
   <id>http://quricolouis.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://quricolouis.github.io/posts/0.html"/>
+    <id>http://quricolouis.github.io/posts/0.html</id>
+    <published>2021-09-06T08:40:55.766Z</published>
+    <updated>2021-09-06T08:40:55.766Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Tree {    class TreeNode {        int val;        TreeNode left;        TreeNode right;        TreeNode(int val) {            this.val = val;        }        TreeNode(int val, TreeNode left, TreeNode right) {            this.val = val;            this.left = left;            this.right = right;        }    }    public static void main(String[] args) {        Integer[] data = {5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1};        Tree tree = new Tree();        TreeNode root = tree.createTree(data, 0);        System.out.println(tree.preorderTraversal(root));        System.out.println(tree.inorderTraversal(root));        System.out.println(tree.postorderTraversal(root));        System.out.println(tree.levelOrder(root));    }    /**     * 创建树     *     * @param arr     * @param index     * @return     */    private TreeNode createTree(Integer[] arr, int index) {        TreeNode treeNode = null;        if (index &lt; arr.length) {            Integer value = arr[index];            if (value == null) {                return null;            }            treeNode = new TreeNode(value);            treeNode.left = createTree(arr, 2 * index + 1);            treeNode.right = createTree(arr, 2 * index + 2);            return treeNode;        }        return treeNode;    }    /**     * 前序遍历     *     * @param root     * @return     */    public List&lt;Integer&gt; preorderTraversal(TreeNode root) {        List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();        preorder(root, res);        return res;    }    public void preorder(TreeNode root, List&lt;Integer&gt; res) {        if (root == null) {            return;        }        res.add(root.val);        preorder(root.left, res);        preorder(root.right, res);    }    /**     * 中序遍历     *     * @param root     * @return     */    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {        List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();        inorder(root, res);        return res;    }    public void inorder(TreeNode root, List&lt;Integer&gt; res) {        if (root == null) {            return;        }        inorder(root.left, res);        res.add(root.val);        inorder(root.right, res);    }    /**     * 后序遍历     *     * @param root     * @return     */    public List&lt;Integer&gt; postorderTraversal(TreeNode root) {        List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();        postorder(root, res);        return res;    }    public void postorder(TreeNode root, List&lt;Integer&gt; res) {        if (root == null) return;        postorder(root.left, res);        postorder(root.right, res);        res.add(root.val);    }    /**     * 层序遍历     *     * @param root     * @return     */    public List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) {        List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();        Queue&lt;TreeNode&gt; queue = new ArrayDeque&lt;&gt;();        if (root != null) {            queue.add(root);        }        while (!queue.isEmpty()) {            int n = queue.size();            List&lt;Integer&gt; level = new ArrayList&lt;&gt;();            for (int i = 0; i &lt; n; i++) {                TreeNode node = queue.poll();                level.add(node.val);                if (node.left != null) {                    queue.add(node.left);                }                if (node.right != null) {                    queue.add(node.right);                }            }            res.add(level);        }        return res;    }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Git笔记</title>
@@ -39,6 +59,36 @@
     <category term="Git" scheme="http://quricolouis.github.io/tags/Git/"/>
     
     <category term="面试笔记" scheme="http://quricolouis.github.io/tags/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>链表(评测机)</title>
+    <link href="http://quricolouis.github.io/posts/523c3831.html"/>
+    <id>http://quricolouis.github.io/posts/523c3831.html</id>
+    <published>2021-04-11T07:41:45.000Z</published>
+    <updated>2021-09-06T08:51:21.477Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class LinkedList {    class ListNode {        int val;        ListNode next;        ListNode() {        }        ListNode(int val) {            this.val = val;        }    }    public ListNode head;    public ListNode tail;    public static void main(String[] args) {        int[] nums = new int[]{4,6,7,8,3,6,9};        LinkedList list = new LinkedList();        for (int num :nums) list.add(num);        list.print(list.head);    }    /**     * 链表添加数据     * @param date     */    public void add(int date) {        if (head == null) {            head = new ListNode(date);            tail = head;        } else {            tail.next = new ListNode(date);            tail = tail.next;        }    }    /**     * 打印链表     * @param node     */    public void print(ListNode node){        if(node == null) return;        tail = node;        while(tail != null){            System.out.print(tail.val + " ");            tail = tail.next;        }    }}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="算法" scheme="http://quricolouis.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="数据结构" scheme="http://quricolouis.github.io/categories/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+    <category term="算法" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="数据结构" scheme="http://quricolouis.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="树" scheme="http://quricolouis.github.io/tags/%E6%A0%91/"/>
     
   </entry>
   
