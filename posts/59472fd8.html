@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="听听音乐, QuricoLouis 软件工程 java后端开发 太原理工大学">
+    <meta name="keywords" content="负载均衡原理及算法, QuricoLouis 软件工程 java后端开发 太原理工大学">
     <meta name="description" content="本科 | 软件工程 | java后端开发">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>听听音乐 | QuricoLouis</title>
+    <title>负载均衡原理及算法 | QuricoLouis</title>
 
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/QuricoLouis/imgBed/blog/20210731104423.png">
 
@@ -470,12 +470,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013951.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020407.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">听听音乐</h1>
+                    <h1 class="description center-align post-title">负载均衡原理及算法</h1>
                 </div>
             </div>
         </div>
@@ -594,12 +594,33 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">面试笔记</span>
+                            </a>
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                                <span class="chip bg-color">分布式</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/" class="post-category">
+                                面试笔记
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -608,28 +629,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-19
+                    2021-09-09
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-07-29
+                    2021-09-09
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    4.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    15 分
                 </div>
                 
 
@@ -652,7 +673,141 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <p>@<a href="%E7%9B%AE%E5%BD%95">TOC</a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>面对大量用户访问、高并发请求，单机网站可以从软硬件两个方面寻求解决方法：</p>
+<ol>
+<li>硬件方面：可以使用高性能的服务器、大型数据库，存储设备，高性能Web服务器；</li>
+<li>软件方面：采用高效率的编程语言(比如Go，Erlang，Scala)等。</li>
+</ol>
+<p>但是，当单机容量达到极限时，我们需要考虑业务拆分和分布式部署，来解决大型网站访问量大，并发量高，海量数据的问题。即需要从架构方面寻求解决方案。</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><ul>
+<li>负载均衡建立在现有网络结构之上，它提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。</li>
+<li>负载均衡（Load Balance），意思是将负载（如前端的访问请求）进行平衡、（通过负载均衡算法）分摊到多个操作单元（服务器，中间件）上进行执行。是解决高性能，单点故障（高可用），扩展性（水平伸缩）的终极解决方案。可以理解为，负载均衡是高可用和高并发共同使用的一种技术。</li>
+</ul>
+<p>负载均衡的作用：</p>
+<p>1、增加吞吐量，解决并发压力（高性能）；</p>
+<p>2、提供故障转移（高可用）；</p>
+<p>3、通过添加或减少服务器数量，提供网站伸缩性（扩展性）；</p>
+<p>4、安全防护（负载均衡设备上做一些过滤，黑白名单等处理）。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>系统的扩展可分为纵向（垂直）扩展和横向（水平）扩展。</p>
+<p>纵向扩展，是从单机的角度通过增加硬件处理能力，比如CPU处理能力，内存容量，磁盘等方面，实现服务器处理能力的提升，不能满足大型分布式系统（网站），大流量，高并发，海量数据的问题。因此需要采用横向扩展的方式，通过添加机器来满足大型网站服务的处理能力。比如：一台机器不能满足，则增加两台或者多台机器，共同承担访问压力。</p>
+<p>典型负载均衡架构如下：<br><img src="https://img-blog.csdnimg.cn/96b511738da244658b00beb418e310b1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="按照软硬件分类"><a href="#按照软硬件分类" class="headerlink" title="按照软硬件分类"></a>按照软硬件分类</h2><h3 id="硬件负载均衡"><a href="#硬件负载均衡" class="headerlink" title="硬件负载均衡"></a>硬件负载均衡</h3><p>采用硬件的方式实现负载均衡，一般是单独的负载均衡服务器，价格昂贵，常用的有：F5、A10、Citrix Netscaler。</p>
+<p>优点：</p>
+<ol>
+<li>硬件负载均衡稳定性更强，双机或集群的效果更佳，可以应对高并发、高吞吐的网络环境中。</li>
+<li>在策略配置方面，可以实现深度的健康检查方法，而不是简单的ping或tcp的方式，而是可以针对业务层进行健康检查，整体的策略调度更灵活、配置更方便，在七层负载方面更具优势。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>价格昂贵；</li>
+<li>扩展能力差，无法进行扩展和定制；</li>
+<li>调试和维护比较麻烦，需要专业人员。</li>
+</ol>
+<p>选择：</p>
+<ol>
+<li>核心系统必须使用硬件负载均衡设备；</li>
+<li>测试系统和一般系统可以使用软件负载均衡设备。<h3 id="软件负载均衡"><a href="#软件负载均衡" class="headerlink" title="软件负载均衡"></a>软件负载均衡</h3>硬件负载均衡价格昂贵，在实际应用中远不如软件负载均衡普遍。常用的软件负载均衡软件有Nginx、LVS、HaProxy、ats、perlbal、pound等。</li>
+</ol>
+<p>Nginx/LVS/HAProxy是目前使用最广泛的三种负载均衡软件。<br>对比：</p>
+<ul>
+<li>LVS：是基于四层的转发（只能做端口转发，不能做基于URL、目录的转发）</li>
+<li>HAproxy：是基于四层和七层的转发，是专业的代理服务器</li>
+<li>Nginx：是WEB服务器，缓存服务器，又是反向代理服务器，可以做七层的转发</li>
+</ul>
+<p>选择：</p>
+<ol>
+<li>HAproxy和Nginx可做七层转发，URL和目录转发都可以；</li>
+<li>中小型企业推荐使用HAproxy（配置简单）；</li>
+<li>在很大并发量的时候选择LVS。</li>
+</ol>
+<h2 id="按照地理结构分类"><a href="#按照地理结构分类" class="headerlink" title="按照地理结构分类"></a>按照地理结构分类</h2><h3 id="本地负载均衡"><a href="#本地负载均衡" class="headerlink" title="本地负载均衡"></a>本地负载均衡</h3><p>本地负载均衡针对本地范围的服务器群做负载均衡</p>
+<h3 id="全局负载均衡"><a href="#全局负载均衡" class="headerlink" title="全局负载均衡"></a>全局负载均衡</h3><p>全局负载均衡针对不同地理位置、不同网络结构的服务器群做负载均衡</p>
+<p>全局负载均衡具备的特点：</p>
+<ol>
+<li>提高服务器响应速度，解决网络拥塞问题，达到高质量的网络访问效果。</li>
+<li>能够远距离为用户提供完全的透明服务,真正实现与地理位置无关性</li>
+<li>能够避免各种单点失效，既包括数据中心、服务器等的单点失效，也包括专线故障引起的单点失效。<h2 id="按照实现技术"><a href="#按照实现技术" class="headerlink" title="按照实现技术"></a>按照实现技术</h2><h3 id="DNS负载均衡"><a href="#DNS负载均衡" class="headerlink" title="DNS负载均衡"></a>DNS负载均衡</h3></li>
+</ol>
+<p>最早的负载均衡技术，利用域名解析实现负载均衡，在DNS服务器，配置多个A记录，这些A记录对应的服务器构成集群。大型网站总是部分使用DNS解析，作为第一级负载均衡。</p>
+<p>优点：</p>
+<ol>
+<li>使用简单：负载均衡工作交给DNS服务器处理，不需要专门的服务器维护；</li>
+<li>提高性能：可以支持基于地址的域名解析，解析成距离用户最近的服务器地址，可以加快访问速度。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><p>可用性差：新增/修改DNS后，解析时间较长；</p>
+</li>
+<li><p>扩展性低：DNS负载均衡的控制权在域名商，扩展性有限。</p>
+</li>
+</ol>
+<p>实践建议：将DNS作为第一级负载均衡。</p>
+<h3 id="IP负载均衡"><a href="#IP负载均衡" class="headerlink" title="IP负载均衡"></a>IP负载均衡</h3><p>IP负载均衡，在网络层通过修改请求目标地址进行负载均衡。<br><img src="https://img-blog.csdnimg.cn/a3f81485abff4eafa49c3d050d778114.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>优点：</p>
+<ol>
+<li>在内核进程完成数据分发，比在应用层分发性能更好。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>所有请求响应都需要经过负载均衡服务器，集群最大吞吐量受限于负载均衡服务器网卡带宽。</li>
+</ol>
+<h3 id="链路层负载均衡"><a href="#链路层负载均衡" class="headerlink" title="链路层负载均衡"></a>链路层负载均衡</h3><p>在通信协议的数据链路层修改mac地址，进行负载均衡。</p>
+<p>数据分发时，不修改ip地址，指修改目标mac地址，配置真实物理服务器集群所有机器虚拟ip和负载均衡服务器ip地址一致，达到不修改数据包的源地址和目标地址，进行数据分发的目的。</p>
+<p>优点：性能好。</p>
+<p>缺点：配置复杂。</p>
+<p>实践建议：直接路由（DR）模式最常用。</p>
+<h3 id="混合型负载均衡"><a href="#混合型负载均衡" class="headerlink" title="混合型负载均衡"></a>混合型负载均衡</h3><p>由于多个服务器群内硬件设备、规模、提供服务等差异，可以考虑给每个服务器群采用最合适的负载均衡方式，然后又在这多个服务器群间再一次负载均衡或群集起来以一个整体向外界提供服务，从而达到最佳的性能，将这种方式称之为混合型负载均衡。</p>
+<h2 id="按照OSI层次"><a href="#按照OSI层次" class="headerlink" title="按照OSI层次"></a>按照OSI层次</h2><h3 id="二层负载均衡（数据链路层）"><a href="#二层负载均衡（数据链路层）" class="headerlink" title="二层负载均衡（数据链路层）"></a>二层负载均衡（数据链路层）</h3><p>负载均衡服务器对外依然提供一个 VIP（浮动IP），集群中不同的机器采用相同IP地址，但机器的MAC地址不一样。当负载均衡服务器接受到请求之后，通过改写报文的目标MAC地址的方式将请求转发到目标机器实现负载均衡。</p>
+<h3 id="三层负载均衡（网络层）"><a href="#三层负载均衡（网络层）" class="headerlink" title="三层负载均衡（网络层）"></a>三层负载均衡（网络层）</h3><p>负载均衡服务器对外依然提供一个VIP，但集群中不同的机器采用不同的IP地址。当负载均衡服务器接受到请求之后，根据不同的负载均衡算法，通过IP将请求转发至不同的真实服务器。</p>
+<h3 id="四层负载均衡（传输层）"><a href="#四层负载均衡（传输层）" class="headerlink" title="四层负载均衡（传输层）"></a>四层负载均衡（传输层）</h3><p>四层负载均衡服务器在接受到客户端请求后，通过修改数据包的地址信息（IP+端口号）将流量转发到应用服务器。</p>
+<h3 id="七层负载均衡（应用层）"><a href="#七层负载均衡（应用层）" class="headerlink" title="七层负载均衡（应用层）"></a>七层负载均衡（应用层）</h3><p>七层负载均衡工作在OSI模型的应用层，应用层协议较多，常用HTTP、DNS 等。七层负载就可以基于这些协议来负载。比如同一个Web服务器的负载均衡，除了根据IP加端口进行负载外，还可根据七层的URL、浏览器类别、语言来决定是否要进行负载均衡。</p>
+<h2 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h2><h3 id="路由模式"><a href="#路由模式" class="headerlink" title="路由模式"></a>路由模式</h3><p>路由模式的部署方式，服务器的网关必须设置成负载均衡机的LAN口地址，且与WAN口分署不同的逻辑网络。因此所有返回的流量也都经过负载均衡。这种方式对网络的改动小，能均衡任何下行流量。</p>
+<h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><p>桥接模式配置简单，不改变现有网络。负载均衡的WAN口和LAN口分别连接上行设备和下行服务器。LAN口不需要配置IP（WAN口与LAN口是桥连接），所有的服务器与负载均衡均在同一逻辑网络中。<br>由于这种安装方式容错性差，网络架构缺乏弹性，对广播风暴及其他生成树协议循环相关联的错误敏感，因此一般不推荐这种安装架构。</p>
+<h3 id="服务直接返回模式"><a href="#服务直接返回模式" class="headerlink" title="服务直接返回模式"></a>服务直接返回模式</h3><p>这种安装方式负载均衡的LAN口不使用，WAN口与服务器在同一个网络中，互联网的客户端访问负载均衡的虚IP（VIP），虚IP对应负载均衡机的WAN口，负载均衡根据策略将流量分发到服务器上，服务器直接响应客户端的请求。因此对于客户端而言，响应他的IP不是负载均衡机的虚IP（VIP），而是服务器自身的IP地址。也就是说返回的流量是不经过负载均衡的。因此这种方式适用大流量高带宽要求的服务。</p>
+<h2 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h2><h3 id="轮询"><a href="#轮询" class="headerlink" title="轮询"></a>轮询</h3><p>轮询为负载均衡中较为基础也较为简单的算法，它不需要配置额外参数。假设配置文件中共有 M 台服务器，该算法遍历服务器节点列表，并按节点次序每轮选择一台服务器处理请求。当所有节点均被调用过一次后，该算法将从第一个节点开始重新一轮遍历。</p>
+<p><strong>特点</strong>：<br>由于该算法中每个请求按时间顺序逐一分配到不同的服务器处理，因此适用于服务器性能相近的集群情况，其中每个服务器承载相同的负载。但对于服务器性能不同的集群而言，该算法容易引发资源分配不合理等问题。</p>
+<p><strong>优点</strong>：服务器请求数目相同；实现简单、高效；易水平扩展。</p>
+<p><strong>缺点</strong>：服务器压力不一样，不适合服务器配置不同的情况；请求到目的结点的不确定，造成其无法适用于有写操作的场景。</p>
+<p><strong>应用场景</strong>：数据库或应用服务层中只有读的场景。</p>
+<h3 id="加权轮询"><a href="#加权轮询" class="headerlink" title="加权轮询"></a>加权轮询</h3><p>为了避免普通轮询带来的弊端，加权轮询应运而生。在加权轮询中，每个服务器会有各自的 weight。一般情况下，weight 的值越大意味着该服务器的性能越好，可以承载更多的请求。该算法中，客户端的请求按权值比例分配，当一个请求到达时，优先为其分配权值最大的服务器。</p>
+<p><strong>特点</strong>：<br>加权轮询可以应用于服务器性能不等的集群中，使资源分配更加合理化。</p>
+<p>其核心思想是，遍历各服务器节点，并计算节点权值，计算规则为 current_weight 与其对应的 effective_weight 之和，每轮遍历中选出权值最大的节点作为最优服务器节点。其中 effective_weight 会在算法的执行过程中随资源情况和响应情况而改变。</p>
+<h3 id="IP哈希"><a href="#IP哈希" class="headerlink" title="IP哈希"></a>IP哈希</h3><p>ip_hash 依据发出请求的客户端 IP 的 hash 值来分配服务器，该算法可以保证同 IP 发出的请求映射到同一服务器，或者具有相同 hash 值的不同 IP 映射到同一服务器。</p>
+<p>特点：<br>该算法在一定程度上解决了集群部署环境下 Session 不共享的问题。</p>
+<h3 id="比率（Ratio）"><a href="#比率（Ratio）" class="headerlink" title="比率（Ratio）"></a>比率（Ratio）</h3><p>给每个服务器分配一个加权值为比例，根椐这个比例，把用户的请求分配到每个服务器。</p>
+<h3 id="优先权（Priority）"><a href="#优先权（Priority）" class="headerlink" title="优先权（Priority）"></a>优先权（Priority）</h3><p>给所有服务器分组，给每个组定义优先权。当最高优先级中所有服务器出现故障，将请求送给次优先级的服务器组。这种方式，实际为用户提供一种热备份的方式。</p>
+<h3 id="最少连接"><a href="#最少连接" class="headerlink" title="最少连接"></a>最少连接</h3><p>将请求分配到连接数最少的服务器（目前处理请求最少的服务器）。</p>
+<p>优点：根据服务器当前的请求处理情况，动态分配；</p>
+<p>缺点：算法实现相对复杂，需要监控服务器请求连接数；</p>
+<h3 id="最快模式（Fastest）"><a href="#最快模式（Fastest）" class="headerlink" title="最快模式（Fastest）"></a>最快模式（Fastest）</h3><p>传递连接给那些响应最快的服务器。</p>
+<h3 id="观察模式（Observed）"><a href="#观察模式（Observed）" class="headerlink" title="观察模式（Observed）"></a>观察模式（Observed）</h3><p>连接数目和响应时间这两项的最佳平衡为依据为新的请求选择服务器。</p>
+<h3 id="预测模式（Predictive）"><a href="#预测模式（Predictive）" class="headerlink" title="预测模式（Predictive）"></a>预测模式（Predictive）</h3><p>利用收集到的服务器当前的性能指标，进行预测分析，选择一台服务器在下一个时间片内，其性能将达到最佳的服务器相应用户的请求。</p>
+<h3 id="动态性能分配-Dynamic-Ratio-APM"><a href="#动态性能分配-Dynamic-Ratio-APM" class="headerlink" title="动态性能分配(Dynamic Ratio-APM)"></a>动态性能分配(Dynamic Ratio-APM)</h3><p>根据收集到的应用程序和应用服务器的各项性能参数，动态调整流量分配。</p>
+<h3 id="动态服务器补充-Dynamic-Server-Act"><a href="#动态服务器补充-Dynamic-Server-Act" class="headerlink" title="动态服务器补充(Dynamic Server Act)"></a>动态服务器补充(Dynamic Server Act)</h3><p>当主服务器群中因故障导致数量减少时，动态地将备份服务器补充至主服务器群。</p>
+<h3 id="服务质量-QoS）"><a href="#服务质量-QoS）" class="headerlink" title="服务质量(QoS）"></a>服务质量(QoS）</h3><p>按不同的优先级对数据流进行分配。</p>
+<h3 id="服务类型-ToS"><a href="#服务类型-ToS" class="headerlink" title="服务类型(ToS)"></a>服务类型(ToS)</h3><p>按不同的服务类型（在 Type of Field 中标识）负载均衡对数据流进行分配。</p>
+<h3 id="规则模式"><a href="#规则模式" class="headerlink" title="规则模式"></a>规则模式</h3><p>针对不同的数据流设置导向规则，用户可自行设置。</p>
+<h2 id="网络分层负载均衡架构"><a href="#网络分层负载均衡架构" class="headerlink" title="网络分层负载均衡架构"></a>网络分层负载均衡架构</h2><p>互联网领域对于负载均衡的架构是随着网站规模提升不断演进的，大致分为如下几个阶段：</p>
+<p>第一阶段：利用Nginx或HAProxy进行单点的负载均衡，该阶段服务器刚从单机向集群转变，需要在七层做转发。</p>
+<p>第二阶段：随着网络规模扩大，Nginx单点瓶颈突出，这时使用LVS或者商用Array就是首要选择，Nginx此时就作为LVS或者Array的节点来使用，具体LVS或Array的是选择是根据公司规模和预算来选择。</p>
+<p>第三阶段：这时网络服务已经成为主流产品，此时随着公司知名度也进一步扩展，相关人才的能力以及数量也随之提升，这时无论从开发适合自身产品的定制，以及降低成本来讲开源的LVS，已经成为首选，这时LVS会成为主流。</p>
+<p>常见互联网分布式架构可分为用户层、反向代理层、Web站点层、业务服务层、数据存储层。互联网分层架构：<br><img src="https://img-blog.csdnimg.cn/123ab03f44834cb7925dfab6e459f3b1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>每层之间交互都有相应的负载均衡方案：</p>
+<ul>
+<li>客户端层-&gt;反向代理层：DNS轮询。</li>
+<li>反向代理层-&gt;Web站点层：Ngnix（均衡策略：请求轮询/最少连接路由/IP哈希）。</li>
+<li>Web站点层-&gt;业务服务层：连接池。</li>
+<li>业务服务层-&gt;数据存储层：数据分片，读写分离。</li>
+</ul>
+<h2 id="拓：四层负载均衡和七层负载均衡的区别"><a href="#拓：四层负载均衡和七层负载均衡的区别" class="headerlink" title="拓：四层负载均衡和七层负载均衡的区别"></a>拓：四层负载均衡和七层负载均衡的区别</h2><p><strong>1. 从技术实现原理上</strong></p>
+<p>所谓四层负载均衡就是使用IP加端口的方式进行路由转发；七层负载均衡一般是基于请求URL地址的方式进行代理转发。同理，还有基于MAC地址信息(虚拟MAC地址到真实MAC地址)进行转发的二层负载均衡和基于IP地址(虚拟IP到真实IP)的三层负载均衡。</p>
+<p>四层负载均衡具体实现方式为：通过报文中的IP地址和端口，再加上负载均衡设备所采用的负载均衡算法，最终确定选择后端哪台下游服务器。以TCP为例，客户端向负载均衡发送SYN请求建立第一次连接，通过配置的负载均衡算法选择一台后端服务器，并且将报文中的IP地址信息修改为后台服务器的IP地址信息，因此TCP三次握手连接是与后端服务器直接建立起来的。</p>
+<p>七层服务均衡在应用层选择服务器，只能先与负载均衡设备进行TCP连接，然后负载均衡设备再与后端服务器建立另外一条TCP连接通道。因此，七层设备在网络性能损耗会更多一些。</p>
+<p><strong>2. 从安全视角上</strong></p>
+<p>四层负载均衡与服务器直接建立起TCP连接，很容易遭受SYN Flood攻击。SYN Flood是一种广为人知的DDoS（分布式拒绝服务攻击）的方式之一，这是一种利用TCP协议缺陷，发送大量伪造的TCP连接请求，从而使得被攻击方资源耗尽的攻击方式。从技术实现原理上可以看出，四层负载均衡很容易将垃圾流量转发至后台服务器，而七层设备则可以过滤这些恶意并清洗这些流量，但要求设备本身具备很强的抗DDOS流量的能力。</p>
+<p><strong>3. 常见四层和七层负载均衡设备</strong></p>
+<p>四层: F5、LVS等<br>七层: nginx、apache等</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/932451?fr=aladdin">百度百科</a><br><a target="_blank" rel="noopener" href="https://www.php.cn/nginx/452029.html">负载均衡常用算法介绍</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/280133347">负载均衡算法及方案</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34904010">四层负载均衡和七层负载均衡区别在哪里？</a></p>
+
                 
             </div>
             <hr/>
@@ -678,7 +833,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://QuricoLouis.github.io/List/tools/index.html">http://QuricoLouis.github.io/List/tools/index.html</a>
+                    <a href="http://QuricoLouis.github.io/posts/59472fd8.html">http://QuricoLouis.github.io/posts/59472fd8.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -715,7 +870,19 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">面试笔记</span>
+                                </a>
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                                    <span class="chip bg-color">分布式</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1190,34 +1357,54 @@ new Valine({
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/List/tools/index.html">
+                <a href="/posts/59472fd8.html">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013951.jpg" class="responsive-img" alt="听听音乐">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020407.jpg" class="responsive-img" alt="负载均衡原理及算法">
                         
-                        <span class="card-title">听听音乐</span>
+                        <span class="card-title">负载均衡原理及算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            负载均衡原理及算法学习笔记
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-07-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-09
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QuricoLouis
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/" class="post-category">
+                                    面试笔记
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">面试笔记</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                        <span class="chip bg-color">分布式</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1225,37 +1412,56 @@ new Valine({
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/List/tools/index.html">
+                <a href="/posts/cd039684.html">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013951.jpg" class="responsive-img" alt="听听音乐">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928015642.jpg" class="responsive-img" alt="Java并发实现原理「JDK源码剖析」">
                         
-                        <span class="card-title">听听音乐</span>
+                        <span class="card-title">Java并发实现原理「JDK源码剖析」</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            第一次写读书笔记。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-07-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-27
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QuricoLouis
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="post-category">
+                                    读书笔记
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/JDK%E6%BA%90%E7%A0%81/">
+                        <span class="chip bg-color">JDK源码</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">读书笔记</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
