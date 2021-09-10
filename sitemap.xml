@@ -51,6 +51,13 @@
   </url>
   
   <url>
+    <loc>http://quricolouis.github.io/census/index.html</loc>
+    
+    <lastmod>2021-07-29</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://quricolouis.github.io/categories/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
@@ -73,13 +80,6 @@
   
   <url>
     <loc>http://quricolouis.github.io/tags/index.html</loc>
-    
-    <lastmod>2021-07-29</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://quricolouis.github.io/census/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
     
@@ -114,14 +114,14 @@
   </url>
   
   <url>
-    <loc>http://quricolouis.github.io/List/movies/index.html</loc>
+    <loc>http://quricolouis.github.io/List/music/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
     
   </url>
   
   <url>
-    <loc>http://quricolouis.github.io/List/music/index.html</loc>
+    <loc>http://quricolouis.github.io/List/movies/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
     
@@ -149,13 +149,6 @@
   </url>
   
   <url>
-    <loc>http://quricolouis.github.io/List/galleries/%E5%8A%A8%E6%BC%AB%E9%A3%8E%E6%99%AF/index.html</loc>
-    
-    <lastmod>2021-07-29</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://quricolouis.github.io/List/galleries/%E5%8A%A8%E6%BC%AB%E4%BA%BA%E7%89%A9/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
@@ -163,14 +156,14 @@
   </url>
   
   <url>
-    <loc>http://quricolouis.github.io/List/galleries/%E5%91%86%E8%90%8C%E7%8C%AB%E5%92%AA/index.html</loc>
+    <loc>http://quricolouis.github.io/List/galleries/%E5%8A%A8%E6%BC%AB%E6%8F%92%E7%94%BB/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
     
   </url>
   
   <url>
-    <loc>http://quricolouis.github.io/List/galleries/%E5%8A%A8%E6%BC%AB%E6%8F%92%E7%94%BB/index.html</loc>
+    <loc>http://quricolouis.github.io/List/galleries/%E5%91%86%E8%90%8C%E7%8C%AB%E5%92%AA/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
     
@@ -192,6 +185,13 @@
   
   <url>
     <loc>http://quricolouis.github.io/List/galleries/%E7%82%AB%E9%85%B7%E8%B7%91%E8%BD%A6/index.html</loc>
+    
+    <lastmod>2021-07-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://quricolouis.github.io/List/galleries/%E5%8A%A8%E6%BC%AB%E9%A3%8E%E6%99%AF/index.html</loc>
     
     <lastmod>2021-07-29</lastmod>
     
