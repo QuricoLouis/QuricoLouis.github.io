@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="常用限流算法及原理, QuricoLouis 软件工程 java后端开发 太原理工大学">
+    <meta name="keywords" content="布隆过滤器(Bloom Filter)的原理和实现, QuricoLouis 软件工程 java后端开发 太原理工大学">
     <meta name="description" content="本科 | 软件工程 | java后端开发">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>常用限流算法及原理 | QuricoLouis</title>
+    <title>布隆过滤器(Bloom Filter)的原理和实现 | QuricoLouis</title>
 
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/QuricoLouis/imgBed/blog/20210731104423.png">
 
@@ -470,12 +470,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013834.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928021744.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">常用限流算法及原理</h1>
+                    <h1 class="description center-align post-title">布隆过滤器(Bloom Filter)的原理和实现</h1>
                 </div>
             </div>
         </div>
@@ -600,12 +600,8 @@
                                 <span class="chip bg-color">面试笔记</span>
                             </a>
                         
-                            <a href="/tags/Java/">
-                                <span class="chip bg-color">Java</span>
-                            </a>
-                        
-                            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
-                                <span class="chip bg-color">分布式</span>
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">java</span>
                             </a>
                         
                     </div>
@@ -629,7 +625,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-09-10
+                    2021-09-11
                 </div>
                 
 
@@ -643,14 +639,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    8 分
                 </div>
                 
 
@@ -673,118 +669,90 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="为什么限流"><a href="#为什么限流" class="headerlink" title="为什么限流"></a>为什么限流</h2><p>限流即限制流量，通过流量控制来保证系统接收到的请求量在正常范围内。由于任何系统的吞吐量都有上限，所以必须设置合理的限定值，以避免流量洪峰将整个系统打垮。</p>
-<p>假如一个系统可以承载的网络带宽是1G，如果流量大于1G就会导致带宽打满，影响整个服务。在现实生活中，限流场景也随处可见：例如银行的叫号系统、餐厅的排队系统，如今的疫情，政府也是全力排除隐患，保证医疗系统健康运行。</p>
-<p>限流的目的只有一个：保护系统，保证系统在可控的负载下平稳运行。</p>
-<h2 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h2><h2 id="计数器算法（固定窗口限流-滑动窗口限流）"><a href="#计数器算法（固定窗口限流-滑动窗口限流）" class="headerlink" title="计数器算法（固定窗口限流+滑动窗口限流）"></a>计数器算法（固定窗口限流+滑动窗口限流）</h2><p>计数器算法是在单位时间内统计用户请求数，一旦请求数量超出设定的阈值，即触发限流策略。计数器算法根据单位时间的计算方式又分为固定窗口算法及滑动窗口算法。</p>
-<h3 id="固定窗口算法"><a href="#固定窗口算法" class="headerlink" title="固定窗口算法"></a>固定窗口算法</h3><p>固定窗口算法指每个单位时间相对隔离，一个单位区间的请求量统计跟其他单位区间的请求量统计完全独立。当一个单位时间过期，自动进入下一个时间阶段重新进行计数，固定窗口计数器算法逻辑图如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/b62a0da56d2e482bb2a2110bea26b6a5.png" alt="在这里插入图片描述"><br>固定窗口计数器算法实现代码（伪代码）如下：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">int unitTime = 1s //设置单位时间为1s
-int limitCount = 1000 //设置单位时间只能1000次请求
-string limitKey = 'limitkey'; //单位时间限流状态key
- 
- 
-if（!has（limitKey））{
-    //初始化单位时间限流状态，并设定期有效期（有效期为一个单位时间）
-    //参考redis的set命令
-    set（limitKey,0,unitTime）
-}
- 
- 
-//原子递增请求量，并返回当前单位时间已有的请求数
-int counter = incr（limitKey,1）
- 
- 
-if counter&gt;limitCount then
-    //超出设置的限流规则，直接返回503（也可自定义返回内容）
-    return 503 
-else
-    continue;//继续执行业务逻辑   
-end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="滑动窗口限流"><a href="#滑动窗口限流" class="headerlink" title="滑动窗口限流"></a>滑动窗口限流</h3><p>为了解决固定窗口算法的临界问题，我们将其升级为滑动窗口算法。滑动窗口算法实现借鉴滑动窗口协议，将单位时间继续细化为更小粒度的时间网格，每当用户请求，时间网格随之推移，计数器的的统计时间区间也随之变动。滑动窗口算法的单位时间不再是彼此独立，而是步步递进，彼此重叠。这也是滑动窗口算法跟固定窗口算法最大的区别。</p>
-<p>（滑动窗口协议主要用于网络数据传输时的流量控制，避免发送网络堵塞 ）</p>
-<p>如下图所示，滑动窗口算法将计数器算法（固定窗口算法）的单位时间进一步细化，例如将1秒分为10个时间网格，每个网格占用100ms的时间。第一个单位时间为0ms-1000ms（以毫秒为单位）、第二个单位时间为100ms-1100ms、第三个单位时间为200ms-1200ms，以此类推。每个单位时间的请求总量都需小于设定的最大请求量<br><img src="https://img-blog.csdnimg.cn/471b33e1fb56494b83ac63d37d4ed084.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>由于滑动窗口算法每次都需要统计单位时间的请求量，开销远大于固定窗口算法，所以在真实的业务环境中需要慎重使用滑动窗口算法。</p>
-<p>滑动窗口计数器算法实现代码（伪代码）如下：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">int unitTime = 1000ms //设置单位时间为1s（1000ms）
-int limitCount = 1000 //设置单位时间只能1000次请求
-string listKey = 'limitkey'; //单位时间限流状态key
- 
- 
-//获取当前毫秒数 demo：1589510627001
-int curMilliseconds = nowMilliseconds（）;
-//计算单位时间的起始时间
-int startMilliseconds = curMilliseconds-unitTime*1000 //获取单位时间的起始时间
- 
- 
-//获取当前往前推1s 之内的所有请求量（这一步及耗性能）
-//参考redis的ZCOUNT命令
-int counter = ZCOUNT（listKey,startMilliseconds,curMilliseconds）
- 
- 
-if counter&gt;limitCount
-    //超出设置的限流规则，直接返回503（也可自定义返回内容）
-    return 503 
-else
-    ZADD（listKey,curMilliseconds,唯一标识）
-    continue;//继续执行业务逻辑   
-end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="漏桶算法"><a href="#漏桶算法" class="headerlink" title="漏桶算法"></a>漏桶算法</h2><p>漏桶算法业务逻辑也相对简单，如下图所示：水滴（用户请求）优先注入到桶中（定长队列、先进先出队列），桶（队列）盛满后自动抛弃（限流）多余的水（请求），另外桶以匀速的方式漏出水滴（处理请求）。</p>
-<p>由此可见，漏桶算法以绝对平均的速度处理用户请求，无论用户请求有多大，最终消费用户请求的速率是固定不变的。在真实的业务场景中，漏桶算法可以解决请求毛刺问题（不平均问题），但面对合法的突发流量，漏桶算法就有点捉襟见肘。<br><img src="https://img-blog.csdnimg.cn/e2e57fb5890047a981163ede161b504b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>漏桶算法的业务逻辑如下：</p>
+                <p>假设要你写一个网络蜘蛛（web crawler）。由于网络间的链接错综复杂，蜘蛛在网络间爬行很可能会形成“环”。为了避免形成“环”，就需要知道蜘蛛已经访问过那些URL。给一个URL，怎样知道蜘蛛是否已经访问过呢？</p>
+<p>把这个问题抽象出来，就是说：现在需要一种算法（工具），帮助我们实现一种高效而准确的，元素在集合中的存在性判断。</p>
+<p>为了解决上面说的这一类问题，人们从简入难，想出了很多办法：</p>
 <ol>
-<li>创建定长队列（demo：长度固定为1000的队列）</li>
-<li>用户请求优先入队列（如果队列已满，直接抛弃请求）（入队列速率不限定）</li>
-<li>事件调度器以固定速率（demo：1000r/s）消费队列数据，并释放队列资源</li>
+<li>将访问过的URL保存到数据库。</li>
+<li>用HashSet将访问过的URL保存起来。那只需接近O(1)的代价就可以查到一个URL是否被访问过了。</li>
+<li>URL经过MD5或SHA-1等单向哈希后再保存到HashSet或数据库。</li>
+<li>Bit-Map方法。建立一个BitSet，将每个URL经过一个哈希函数映射到某一位。</li>
 </ol>
-<p>漏桶算法实现代码（伪代码）如下：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">//代码实现(伪代码)
-local rate = 1ms //设置生产速率为1个/ms
-local bucketSize = 1000 //漏桶大小 设置可容纳1000个水滴
-//初始化漏桶
-local bucketQueue = new BucketQueue(bucketSize)
-//用户请求
-local userRequest = new UserRequest();
-local res = bucketQuest.push(userRequest)
-if res ==false then
-    //目前漏桶已满，无法将请求放入漏桶(队列),直接返回503(也可自定义）
-    return 503
-else
-    //等待事件调度处理
-end
-//队列消费（每1ms处理一个请求(一滴水)）
-setTimeout(function () {
-    local userRequest = bucketQuest.lpop()
-    //执行业务逻辑
-}, rate);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>方法1~3都是将访问过的URL完整保存，方法4则只标记URL的一个映射位。</p>
+<p> 以上方法在数据量较小的情况下都能完美解决问题，但是当数据量变得非常庞大时问题就来了。</p>
+<p>方法1的缺点：数据量变得非常庞大后关系型数据库查询的效率会变得很低。而且每来一个URL就启动一次数据库查询是不是太小题大做了？</p>
+<p>方法2的缺点：太消耗内存。随着URL的增多，占用的内存会越来越多。就算只有1亿个URL，每个URL只算50个字符，就需要5GB内存。</p>
+<p>方法3：由于字符串经过MD5处理后的信息摘要长度只有128Bit，SHA-1处理后也只有160Bit，因此方法3比方法2节省了好几倍的内存。</p>
+<p>方法4消耗内存是相对较少的，但缺点是单一哈希函数发生冲突的概率太高。还记得数据结构课上学过的Hash表冲突的各种解决方法么？若要降低冲突发生的概率到1%，就要将BitSet的长度设置为URL个数的100倍。</p>
+<p>实质上上面的算法都忽略了一个重要的隐含条件：允许小概率的出错，不一定要100%准确！也就是说少量url实际上没有没网络蜘蛛访问，而将它们错判为已访问的代价是很小的——大不了少抓几个网页呗。 </p>
+<h2 id="布隆过滤器原理"><a href="#布隆过滤器原理" class="headerlink" title="布隆过滤器原理"></a>布隆过滤器原理</h2><blockquote>
+<p>误报率(False positive)，又叫假阳性<br>拿最开始讲的网页爬虫的问题来说，在建立 BitMap 时，如果发生碰撞，那我们就会认为新爬<br>到的这个 URL 是已经存在于已有集合中了，而事实上，却是不存在的。这个意思抽象出来，<br>就是把本来不存在的事物(False)误报为已存在事物(Positive)的错误率。在一般的应用场景<br>中，有极小的误报率是可以被接受的。比如爬虫时，少爬几个网页并没有什么太大关系；医疗检查时，一个健康的人被医生误判我们患了某种疾病(False Positive)，总比一个有病的人没有被检查出来(False Negative)要强得多。我们把后面一种情况称为假阴性，也就是“漏报”。</p>
+</blockquote>
+<blockquote>
+<p>上面的分析可知，碰撞在元素针对集合的存在性判断问题中，会导致误报率的发生，而误报率如果不大的话，对这个问题的影响也就不大。所以，当然可以设计一种方法，在降低碰撞概率的前提下，生成相应的bit串。<br>降低碰撞概率的两个途径：</p>
+<ol>
+<li>使用多个哈希，替代之前的单个哈希；</li>
+<li>增大bit数组的长度。</li>
+</ol>
+</blockquote>
+<p>布隆过滤器（Bloom Filter）的核心实现是一个超大的位数组和几个哈希函数。假设位数组的长度为m，哈希函数的个数为k<br><img src="https://img-blog.csdnimg.cn/4b682a1304ba46a1bccc00609841800b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>以上图为例，具体的操作流程：假设集合里面有3个元素{x, y, z}，哈希函数的个数为3。首先将位数组进行初始化，将里面每个位都设置位0。对于集合里面的每一个元素，将元素依次通过3个哈希函数进行映射，每次映射都会产生一个哈希值，这个值对应位数组上面的一个点，然后将位数组对应的位置标记为1。查询W元素是否存在集合中的时候，同样的方法将W通过哈希映射到位数组上的3个点。如果3个点的其中有一个点不为1，则可以判断该元素一定不存在集合中。反之，如果3个点都为1，则该元素可能存在集合中。注意：此处不能判断该元素是否一定存在集合中，可能存在一定的误判率。可以从图中可以看到：假设某个元素通过映射对应下标为4，5，6这3个点。虽然这3个点都为1，但是很明显这3个点是不同元素经过哈希得到的位置，因此这种情况说明元素虽然不在集合中，也可能对应的都是1，这是误判率存在的原因。</p>
+<h2 id="布隆过滤器实现"><a href="#布隆过滤器实现" class="headerlink" title="布隆过滤器实现"></a>布隆过滤器实现</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class MyBloomFilter {
+    //你的布隆过滤器容量
+    private static final int DEFAULT_SIZE = 2 &lt;&lt; 28;
+    //bit数组，用来存放key
+    private static BitSet bitSet = new BitSet(DEFAULT_SIZE);
+    //后面hash函数会用到，用来生成不同的hash值，可随意设置，别问我为什么这么多8，图个吉利
+    private static final int[] ints = {1, 6, 16, 38, 58, 68};
 
-<h2 id="令牌桶算法"><a href="#令牌桶算法" class="headerlink" title="令牌桶算法"></a>令牌桶算法</h2><p>令牌桶算法与漏桶算法有相似之处，都包含2部分业务逻辑。漏桶算法的2部分业务逻辑为：漏桶队列+事件调度器；令牌桶算法的2部分业务逻辑为：令牌生产+令牌消费。漏桶算法是以固定的速率处理用户请求（消费），而令牌桶算法则以固定的速率生产令牌（生产）。</p>
-<p>如下图所示：令牌工厂以固定的速率生产令牌并注入到令牌桶中，令牌桶满时会自动抛弃多余的令牌。当有用户请求，优先从令牌桶获取有效令牌（可以理解为打开大门的钥匙），只有获取到令牌的请求才会继续向下执行业务逻辑，否则直接拒绝请求（限流）。其中需要重点关注的是：1、一个令牌不可被2个请求获取（需要加锁，并置为不可用状态）；2、在请求处理完毕后需销毁令牌。</p>
-<p><img src="https://img-blog.csdnimg.cn/952194bc9c474a86bd203785b179bb21.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>令牌桶算法实现代码（伪代码）如下：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">//代码实现(伪代码)
-local tokenProducerRate = 1ms //设置生产速率为1个/ms
-local bucketSize = 1000 //令牌桶大小 设置可容纳1000个令牌
-local bucketKey = "bucketKey" //令牌桶名称
-bucketKey.setSize(bucketSize) //设置令牌桶大小
-local token = bucketKey.getValidToken() //获取有效令牌
-if token ~= false then
-    token.lock() //加锁，需要原子性
-else
-    //超出设置的限流规则，直接返回503(也可自定义)
-    return 503
-end
-//继续执行业务逻辑
-token.destroy()  //令牌销毁
-//令牌工厂代码（每1ms向令牌桶推送一个令牌）
-setTimeout(function () {
-    local token = new Token();
-    local result = bucketKey.push(token)
-    if result == false then
-        //向令牌桶已满，push命令失败
-    else
-        //向令牌桶未满，push成功
-    end
-}, tokenProducerRate);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="限流算法比较"><a href="#限流算法比较" class="headerlink" title="限流算法比较"></a>限流算法比较</h2><p><img src="https://img-blog.csdnimg.cn/acf6bae2bbd34155bb11e1b022582ef4.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+    //add方法，计算出key的hash值，并将对应下标置为true
+    public void add(Object key) {
+        Arrays.stream(ints).forEach(i -&gt; bitSet.set(hash(key, i)));
+    }
+
+    //判断key是否存在，true不一定说明key存在，但是false一定说明不存在
+    public boolean isContain(Object key) {
+         boolean result = true;
+        for (int i : ints) {
+        	//短路与，只要有一个bit位为false，则返回false
+            result = result &amp;&amp; bitSet.get(hash(key, i));
+        }
+        return result;
+    }
+
+    //hash函数，借鉴了hashmap的扰动算法，强烈建议大家把这个hash算法看懂，这个设计真的牛皮加闪电
+    private int hash(Object key, int i) {
+        int h;
+        return key == null ? 0 : (i * (DEFAULT_SIZE - 1) &amp; ((h = key.hashCode()) ^ (h &gt;&gt;&gt; 16)));
+    }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>测试：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public static void main(String[] args) {
+    MyNewBloomFilter myNewBloomFilter = new MyNewBloomFilter();
+    myNewBloomFilter.add("张学友");
+    myNewBloomFilter.add("郭德纲");
+    myNewBloomFilter.add("蔡徐鸡");
+    myNewBloomFilter.add(666);
+    System.out.println(myNewBloomFilter.isContain("张学友"));//true
+    System.out.println(myNewBloomFilter.isContain("张学友 "));//false
+    System.out.println(myNewBloomFilter.isContain("张学友1"));//false
+    System.out.println(myNewBloomFilter.isContain("郭德纲"));//true
+    System.out.println(myNewBloomFilter.isContain("蔡徐老母鸡"));//false
+    System.out.println(myNewBloomFilter.isContain(666));//true
+    System.out.println(myNewBloomFilter.isContain(888));//false
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过对比hash算法计算出来的下标，注意，我们是对比一组，而不是只看一次，一次hash结果对应一个下标</p>
+<p>把同一个key进行多次hash运算，将hash出来的下标放入数组，数组默认全为0，放入元素后该下标就为1，后面判断是否存在元素的时候也是进行同样次数的hash运算，看下结果对应的所有下标是否全为1，<strong>若全为1，则代表该key可能存在，若存在不为1的，则说明该key一定不存在</strong>；</p>
+<p>默认位数组：[0，0，0，0，0，0]<br>比方说有个已知key的下标是0，2，5<br>对应位数组：[1，0，1，0，0，1]<br>判断某个未知key存不存在的时候，假设我们计算出来的下标是0，2，4<br>对应位数组：[1，0，1，0，1，0]<br>此时位数组内5对应下标值为0，而已知key位数组的5对应下标位1，说明这两个一定不是同一个key</p>
+<p>相反，如果某个key计算出来的下标为[1，0，1，0，0，1]，只能说这个key可能存在，因为这个位置可能是其它key计算出来的</p>
+<h2 id="布隆过滤器的应用场景"><a href="#布隆过滤器的应用场景" class="headerlink" title="布隆过滤器的应用场景"></a>布隆过滤器的应用场景</h2><ol>
+<li><p>HTTP 缓存服务器、Web 爬虫等<br>主要工作是判断一条 URL 是否在现有的 URL 集合之中（可以认为这里的数据量级上亿）。<br>对于 HTTP 缓存服务器，当本地局域网中的 PC 发起一条 HTTP 请求时，缓存服务器会先查看一下这个 URL 是否已经存在于缓存之中，如果存在的话就没有必要去原始的服务器拉取数据了（为了简单起见，我们假设数据没有发生变化），这样既能节省流量，还能加快访问速度，以提高用户体验。<br>对于 Web 爬虫，要判断当前正在处理的网页是否已经处理过了，同样需要当前 URL 是否存在于已经处理过的 URL 列表之中。</p>
+</li>
+<li><p>垃圾邮件过滤<br>假设邮件服务器通过发送方的邮件域或者IP地址对垃圾邮件进行过滤，那么就需要判断当前的邮件域或者 IP 地址是否处于黑名单之中。如果邮件服务器的通信邮件数量非常大（也可以认为数据量级上亿），那么也可以使用 Bloom Filter 算法。</p>
+</li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guoziqing506/article/details/52852515">Bloom Filter原理与实现</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/kiwivip/blog/133498">Bloom Filter 算法简介 (增加 Counting Bloom Filter 内容)</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/heaad/archive/2011/01/02/1924195.html">BloomFilter——大规模数据处理利器</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liyulong1982/p/6013002.html">布隆过滤器(Bloom Filter)详解</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/88c6ac4b38c8">布隆过滤器(Bloom Filter)的原理和实现</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33709582/article/details/108407706">布隆过滤器原理（小白都能看懂的demo）</a></p>
 
                 
             </div>
@@ -811,7 +779,7 @@ setTimeout(function () {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://QuricoLouis.github.io/posts/42956def.html">http://QuricoLouis.github.io/posts/42956def.html</a>
+                    <a href="http://QuricoLouis.github.io/posts/58823f19.html">http://QuricoLouis.github.io/posts/58823f19.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -853,12 +821,8 @@ setTimeout(function () {
                                     <span class="chip bg-color">面试笔记</span>
                                 </a>
                             
-                                <a href="/tags/Java/">
-                                    <span class="chip bg-color">Java</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
-                                    <span class="chip bg-color">分布式</span>
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">java</span>
                                 </a>
                             
                         </div>
@@ -1334,19 +1298,19 @@ new Valine({
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/posts/dbd91440.html">
+                <a href="/posts/8c5c4d28.html">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928021853.jpg" class="responsive-img" alt="海量数据处理方法总结">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928012804.jpg" class="responsive-img" alt="STL容器介绍">
                         
-                        <span class="card-title">海量数据处理方法总结</span>
+                        <span class="card-title">STL容器介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            海量数据处理，是基于海量数据上的存储、处理、操作。
+                            STL容器分为三类：序列容器、关联容器、其他
                         
                     </div>
                     <div class="publish-info">
@@ -1391,24 +1355,24 @@ new Valine({
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/59472fd8.html">
+                <a href="/posts/dbd91440.html">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020407.jpg" class="responsive-img" alt="负载均衡原理及算法">
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928021853.jpg" class="responsive-img" alt="海量数据处理方法总结">
                         
-                        <span class="card-title">负载均衡原理及算法</span>
+                        <span class="card-title">海量数据处理方法总结</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            负载均衡原理及算法学习笔记
+                            海量数据处理，是基于海量数据上的存储、处理、操作。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-11
                             </span>
                         <span class="publish-author">
                             
@@ -1425,16 +1389,16 @@ new Valine({
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/Big-Data/">
+                        <span class="chip bg-color">Big Data</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
                     <a href="/tags/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/">
                         <span class="chip bg-color">面试笔记</span>
-                    </a>
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
-                        <span class="chip bg-color">分布式</span>
                     </a>
                     
                 </div>
