@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>LRU缓存实现与原理</title>
+      <link href="/posts/407123ef.html"/>
+      <url>/posts/407123ef.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ol><li><p>LRU是 Least Recently Used 的缩写，即最近最少使用页面置换算法，是为虚拟页式存储管理服务的，是根据页面调入内存后的使用情况进行决策了。由于无法预测各页面将来的使用情况，只能利用“最近的过去”作为“最近的将来”的近似，因此，LRU算法就是将最近最久未使用的页面予以淘汰。</p></li><li><p>操作系统里，在内存不够的场景下，淘汰旧内容的策略。LRU … Least Recent Used，淘汰掉最不经常使用的。因为计算机体系结构中，最大的最可靠的存储是硬盘，容量很大，并且内容可以固化，但是访问速度很慢，所以需要把使用的内容载入内存中；内存速度很快，但是容量有限，并且断电后内容会丢失，并且为了进一步提升性能，还有CPU内部的 L1 Cache，L2 Cache 等概念。因为速度越快的地方，它的单位成本越高，容量越小，新的内容不断被载入，旧的内容肯定要被淘汰，所以就有这样的使用背景。</p></li></ol><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>最近最少使用算法，核心思想是：最近使用的数据很大概率将会再次被使用。而最近一段时间都没有使用的数据，很大概率不会再使用。做法：把最长时间未被访问的数据置换出去。这种算法是完全从最近使用的时间角度去考虑的。<br><img src="https://img-blog.csdnimg.cn/4ed76535d4934ca3941b9b634fe7f44f.png" alt="在这里插入图片描述"><br><strong>执行过程理解:</strong></p><ol><li>在缓存中查找客户端需要访问的数据 如果缓存命中，则将访问的数据中队列中取出，重新加入到缓存队列的头部。</li><li>如果没有命中，表示缓存穿透，将需要访问的数据从磁盘中取出，加入到缓存队列的尾部；</li><li>如果此时缓存满了，则需要先置换出去一个数据，淘汰队列尾部的数据，然后再在队列头部加入新数据。</li></ol><p><strong>存在的问题：</strong></p><ul><li><strong>缓存污染</strong>：如果某个客户端访问大量历史数据时，可能使缓存中的数据被这些历史数据替换，其他客户端访问数据的命中率大大降低。</li></ul><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>设计和构建一个“最近最少使用”缓存，该缓存会删除最近最少使用的项目。缓存应该从键映射到值(允许你插入和检索特定键对应的值)，并在初始化时指定最大容量。当缓存被填满时，它应该删除最近最少使用的项目。</p><p>它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p><p>获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p><p>示例：</p><blockquote><p>LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );</p><p>cache.put(1, 1);<br>cache.put(2, 2);<br>cache.get(1);       // 返回  1<br>cache.put(3, 3);    // 该操作会使得密钥 2 作废<br>cache.get(2);       // 返回 -1 (未找到)<br>cache.put(4, 4);    // 该操作会使得密钥 1 作废<br>cache.get(1);       // 返回 -1 (未找到)<br>cache.get(3);       // 返回  3<br>cache.get(4);       // 返回  4</p></blockquote><h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>LRU 总体上是这样的，最近使用的放在前边（最左边），最近没用的放到后边（最右边），来了一个新的数，如果内存满了，把旧的数淘汰掉，那位了方便移动数据，我们肯定不能考虑用数组，呼之欲出，就是使用链表了，解决方案：<strong>链表（处理新老关系）+ 哈希（查询在不在）</strong>，分析如下：</p><ol><li>底层应该用链表，按照数据的新旧程度来排列，旧的在左边，新的在右边，新来一个加到尾部（你可以想象自己从左往右画一条链表），删除是删头,除了这两个操作，还有就是把一个数据从中间拿出来放尾巴上（这个数组就很难做到）</li><li>这里还有一个需求，就是要知道这个数据有没有存在于链表中，如果不在链表中，加到尾巴即可，如果已经在链表中，就只要更细数据的位置,如何查找这个数据在不在呢，这就用哈希表。</li><li>考虑删除操作，要把当前节点的前一个节点的指针的改变，获取它前一个节点，方便的数据结构就是 双向链表</li></ol><p>所以我们用的数据结构就是 LinkedList (底层是双向链表)+ HashMap，也直接用 LinkedHashMap 更为方便。看面试官要求是啥了。</p><p>ps：其实也可以用单链表，只要在 map 中不存当前节点，而是存当前节点的前驱即可。</p><h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><p>算法一：LinkedHashMap</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">class LRUCache {    int capacity;    Map&lt;Integer, Integer&gt; map;    public LRUCache(int capacity) {        this.capacity = capacity;        map = new LinkedHashMap&lt;&gt;();    }        public int get(int key) {        if (!map.containsKey(key)){            return -1;        }        // 先删除旧的位置，再放入新位置        Integer value = map.remove(key);        map.put(key, value);        return value;    }        public void put(int key, int value) {        if (map.containsKey(key)){            map.remove(key);            map.put(key, value);            return;        }        map.put(key, value);        // 超出capacity，删除最久没用的,利用迭代器删除第一个        if(map.size() &gt; capacity){            map.remove(map.entrySet().iterator().next().getKey());        }    }}/** * Your LRUCache object will be instantiated and called as such: * LRUCache obj = new LRUCache(capacity); * int param_1 = obj.get(key); * obj.put(key,value); */<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>算法二：双链表+HashMap</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">class LRUCache {//定义双向链表节点    public class ListNode{        int key;        int value;        ListNode pre;        ListNode next;        public ListNode(int key, int value){            this.key = key;            this.value = value;            pre = null;            next = null;        }    }    private int capacity;    private Map&lt;Integer, ListNode&gt; map;    private ListNode head;    private ListNode tail;    public LRUCache(int capacity) {        this.capacity = capacity;        map = new HashMap&lt;&gt;();        head = new ListNode(-1, -1);        tail = new ListNode(-1, -1);        head.next = tail;        tail.pre = head;    }        public int get(int key) {        if(!map.containsKey(key)) {            return -1;        }        ListNode node = map.get(key);        // 先删除该节点，再接到尾部        node.pre.next = node.next;        node.next.pre = node.pre;        moveToTail(node);        return node.value;    }        public void put(int key, int value) {    // 直接调用这边的get方法，如果存在，它会在get内部被移动到尾巴，不用再移动一遍,直接修改值即可        if(get(key) != -1) {            map.get(key).value = value;            return;        }// 若不存在，new一个出来,如果超出容量，把头去掉        ListNode node = new ListNode(key, value);        map.put(key, node);        moveToTail(node);        if(map.size() &gt; capacity) {            map.remove(head.next.key);            head.next = head.next.next;            head.next.pre = head;        }    }// 把节点移动到尾巴    private void moveToTail(ListNode node) {        node.pre = tail.pre;        tail.pre = node;        node.pre.next = node;        node.next = tail;    }}/** * Your LRUCache object will be instantiated and called as such: * LRUCache obj = new LRUCache(capacity); * int param_1 = obj.get(key); * obj.put(key,value); */<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>算法三：单链表</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">class LRUCache {// 定义单链表节点    private class ListNode{        int key;        int value;        ListNode next;        public ListNode(int key, int value){            this.key = key;            this.value = value;            this.next = null;        }    }    private int capacity;    private Map&lt;Integer, ListNode&gt; map;    private ListNode head;    private ListNode tail;    public LRUCache(int capacity) {        this.capacity = capacity;        map = new HashMap&lt;&gt;();        head = new ListNode(-1, -1);        tail = head;    }        public int get(int key) {        if(!map.containsKey(key)){            return -1;        }        // map中存放的是要找的节点的前驱        ListNode pre = map.get(key);        ListNode cur = pre.next;        // 把当前节点删掉并移到尾部        if(cur != tail){            pre.next = cur.next;            // 更新它后面 node 的前驱            map.put(cur.next.key, pre);            map.put(cur.key, tail);            moveToTail(cur);        }        return cur.value;    }        public void put(int key, int value) {        if(get(key) != -1){            map.get(key).next.value = value;            return;        }        // 若不存在则 new 一个        ListNode node = new ListNode(key, value);        // 当前 node 的 pre 是 tail        map.put(key, tail);        moveToTail(node);        if(map.size() &gt; capacity){            map.remove(head.next.key);            map.put(head.next.next.key, head);            head.next = head.next.next;        }    }    public void moveToTail(ListNode node){        node.next = null;        tail.next = node;        tail = tail.next;    }}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="LRU-在-MySQL-中的应用"><a href="#LRU-在-MySQL-中的应用" class="headerlink" title="LRU 在 MySQL 中的应用"></a>LRU 在 MySQL 中的应用</h2><p>MySQL 中的 Buffer Pool 也是用来加速查询的缓存，当 Buffer Pool的容量被占满时，也需要淘汰数据，其中数据的淘汰也是基于LRU算法的。</p><p>所有从磁盘上读取的数据首先都会缓存在 Buffer Pool中。当对存放大量冷数据的表进行查询时，会在短时间内将大量冷数据加载到 Buffer Pool 中，如果 Buffer Pool 被占满之后就会根据 LRU 算法淘汰数据，可能就把之间的热点数据淘汰了，从而导致的缓存命中率下降。</p><p>为了避免因为冷数据表的查询导致热点数据被淘汰的问题，MySQL 对 LRU 算法进行了改进，将 Buffer Pool 分成 young 和 old 两个区域，所有数据被加载进 Buffer Pool 时都是先放在 old 区，当在 old 区待足够长的时间或被访问次数达到阈值时数据才会被放到 young 区。数据淘汰也是优先从 old 区淘汰。这样就能避免大量冷数据加载导致的热点数据淘汰问题。</p><h2 id="LRU-在-Redis-中的应用"><a href="#LRU-在-Redis-中的应用" class="headerlink" title="LRU 在 Redis 中的应用"></a>LRU 在 Redis 中的应用</h2><p>Redis 中淘汰数据有两个方式：</p><ul><li>定期删除：Redis 有后台线程，会定时扫描数据，从中选择应该淘汰的过期数据将其删除。假如每次删除都对所有的 key 进行一次最近访问时间排序的话，对性能消耗非常大，Redis 采用的是随机抽样的方式进行删除，例如 LRU 算法删除，则随机抽取 20 个 key，从中找出最近未访问的 key 进行删除。这样随机抽取能提高性能，但是不能覆盖到所有的 key，会存在一个问题，对于设计了过期时间的数据，理论上来说应该将其删除，但是多次随机抽取均为选中，因此未被淘汰。</li><li>惰性删除：针对定期删除不能完全淘汰所有应该淘汰的数据的问题，当 Redis 访问了 key 之后，Redis 会判断 key 是否已经过期，如果已经过期就直接删掉。</li></ul><blockquote><p>Redis 的6种内存淘汰策略，设置参数: <strong>maxmemory-policy noeviction,</strong> 内存设置参数: <strong>maxmemory</strong></p><ol><li>noenviction：默认策略，写请求失败，读请求正常，del 请求正常;</li><li><strong>volatile-lru</strong>：在设置了过期键的键空间中移除最近最少使用的 key;</li><li>volatile-random：在设置过过期键的键空间中随机移除部分 key;</li><li>volatile-ttl：在设置过期键的键空间中挑选将要过期的数据淘汰;</li><li><strong>allkeys-lru</strong>：在所有键空间中移除最近最少使用的可以;</li><li>allkeys-random：在所有键空间中随机移除部分随机移除部分 key;</li></ol></blockquote><h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><p>  LRU 算法也可以用于一些实际的应用中，如你要做一个浏览器，或类似于淘宝客户端的应用的就要用到这个原理。大家都知道浏览器在浏览网页的时候会把下载的图片临时保存在本机的一个文件夹里，下次再访问时就会，直接从本机临时文件夹里读取。但保存图片的临时文件夹是有一定容量限制的，如果你浏览的网页太多，就会一些你最不常使用的图像删除掉，只保留最近最久使用的一些图片。这时就可以用到 LRU 算法 了，这时上面算法里的这个特殊的栈就不是保存页面的序号了，而是每个图片的序号或大小；所以上面这个栈的元素都用 Object 类来表示，这样的话这个栈就可以保存的对象了。</p><h2 id="漫画图解"><a href="#漫画图解" class="headerlink" title="漫画图解"></a>漫画图解</h2><p><img src="https://img-blog.csdnimg.cn/617728be2e4c4b11a615b7e2179e2a6d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/79f74750ccf54554ae1421f27c90f840.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_13,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/3116195f15784303b611003f9528ad76.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>用户信息当然是存在数据库里。但是由于我们对用户系统的性能要求比较高，显然不能每一次请求都去查询数据库。所以，在内存中创建了一个哈希表作为缓存，每次查找一个用户的时候先在哈希表中查询，以此提高访问性能。<br><img src="https://img-blog.csdnimg.cn/8d212d5925514a73ac237ef982a34f70.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/560bc27daf4b403daf54eeedc66e0c53.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cd97c78831444b5d89d1c18a6857f563.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/8781cc0d9bdc4c589b91d2dcdc899c9f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/714f57e6934446bba48a616df40beec6.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/d29971b17ab5427a99e2d3fc807147bf.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0feb570f87664f02a2173473f35d7b30.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7b43750754344197a1e3601b6ab56d42.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/4e6a61438d974e2f8cf15d8f71c3e6cb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>让我们以用户信息的需求为例，来演示一下 LRU 算法的基本思路：</p><ol><li><p>假设我们使用哈希链表来缓存用户信息，目前缓存了 4个用户，这 4 个用户是按照时间顺序依次从链表右端插入的。<br><img src="https://img-blog.csdnimg.cn/c9a7f5e1700445e69082b7aace60799b.png" alt="在这里插入图片描述"></p></li><li><p>业务方访问用户 5，由于哈希链表中没有用户 5 的数据，我们从数据库中读取出来，插入到缓存当中。这时候，链表中最右端是最新访问到的用户 5，最左端是最近最少访问的用户 1。<br><img src="https://img-blog.csdnimg.cn/1cc94092cf3a4788b24a5cd05a6c0042.png" alt="在这里插入图片描述"></p></li><li><p>业务方访问用户 2，哈希链表中存在用户 2 的数据，我们怎么做呢？我们把用户 2 从它的前驱节点和后继节点之间移除，重新插入到链表最右端。这时候，链表中最右端变成了最新访问到的用户 2，最左端仍然是最近最少访问的用户 1。<br><img src="https://img-blog.csdnimg.cn/75203e3e97ce4ade8a19d26389c34db1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6cd0c28b15d541e08b770b51942bbf87.png" alt="在这里插入图片描述"></p></li><li><p>业务方请求修改用户 4 的信息。同样道理，我们把用户 4 从原来的位置移动到链表最右侧，并把用户信息的值更新。这时候，链表中最右端是最新访问到的用户 4，最左端仍然是最近最少访问的用户 1。<br><img src="https://img-blog.csdnimg.cn/e6d530a8cc7347d583bfe48c68fedba3.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/41c1e588d6e7445ba2825260c68cf032.png" alt="在这里插入图片描述"></p></li></ol><p>5.后来业务方换口味了，访问用户 6，用户 6 在缓存里没有，需要插入到哈希链表。假设这时候缓存容量已经达到上限，必须先删除最近最少访问的数据，那么位于哈希链表最左端的用户1就会被删除掉，然后再把用户 6 插入到最右端。<br><img src="https://img-blog.csdnimg.cn/70d82259f85f4cff8a43a1304c71d74e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/f6f1f7021d7c48a1bc87ad9ea72bfc25.png" alt="在这里插入图片描述"></p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/neuqzlc/article/details/115031724?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163154059016780255288098%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=163154059016780255288098&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-115031724.first_rank_v2_pc_rank_v29&amp;utm_term=LRU&amp;spm=1018.2226.3001.4187">LRU算法思想及手写LRU实现</a><br><a href="https://blog.csdn.net/belongtocode/article/details/102989685?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163154059016780255288098%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=163154059016780255288098&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-1-102989685.first_rank_v2_pc_rank_v29&amp;utm_term=LRU&amp;spm=1018.2226.3001.4187">全面讲解LRU算法</a><br><a href="https://blog.csdn.net/csdnsevenn/article/details/83965773?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=LRU&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-7-83965773.first_rank_v2_pc_rank_v29&amp;spm=1018.2226.3001.4187">漫画：什么是LRU算法？</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法与数据结构 </category>
+          
+          <category> LeetCode </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法与数据结构 </tag>
+            
+            <tag> LeetCode </tag>
+            
+            <tag> 学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>海量数据处理计算及算法实现总结</title>
       <link href="/posts/62e5db59.html"/>
       <url>/posts/62e5db59.html</url>
@@ -20,11 +51,9 @@
       
         <tags>
             
-            <tag> 面试笔记 </tag>
-            
             <tag> Big Data </tag>
             
-            <tag> 算法 </tag>
+            <tag> 算法与数据结构 </tag>
             
         </tags>
       
@@ -49,11 +78,9 @@
       
         <tags>
             
-            <tag> 面试笔记 </tag>
-            
             <tag> Big Data </tag>
             
-            <tag> 算法 </tag>
+            <tag> 算法与数据结构 </tag>
             
         </tags>
       
@@ -71,18 +98,18 @@
       
       <categories>
           
-          <category> 面试笔记 </category>
+          <category> 学习笔记 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 面试笔记 </tag>
-            
             <tag> Big Data </tag>
             
-            <tag> 算法 </tag>
+            <tag> Java </tag>
+            
+            <tag> 算法与数据结构 </tag>
             
         </tags>
       
@@ -100,14 +127,14 @@
       
       <categories>
           
-          <category> 面试笔记 </category>
+          <category> 学习笔记 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 面试笔记 </tag>
+            <tag> 算法与数据结构 </tag>
             
             <tag> java </tag>
             
@@ -134,11 +161,9 @@
       
         <tags>
             
-            <tag> 面试笔记 </tag>
-            
             <tag> Big Data </tag>
             
-            <tag> 算法 </tag>
+            <tag> 算法与数据结构 </tag>
             
         </tags>
       
@@ -156,16 +181,18 @@
       
       <categories>
           
-          <category> 面试笔记 </category>
+          <category> 分布式系统 </category>
+          
+          <category> 学习笔记 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 面试笔记 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 算法与数据结构 </tag>
             
             <tag> 分布式 </tag>
             
@@ -185,16 +212,18 @@
       
       <categories>
           
-          <category> 面试笔记 </category>
+          <category> 分布式系统 </category>
+          
+          <category> 学习笔记 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 面试笔记 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 算法与数据结构 </tag>
             
             <tag> 分布式 </tag>
             
@@ -223,9 +252,9 @@
             
             <tag> Java </tag>
             
-            <tag> JDK源码 </tag>
+            <tag> 算法与数据结构 </tag>
             
-            <tag> 读书笔记 </tag>
+            <tag> JDK源码 </tag>
             
         </tags>
       
@@ -243,6 +272,8 @@
       
       <categories>
           
+          <category> LeetCode </category>
+          
           <category> 算法与数据结构 </category>
           
       </categories>
@@ -250,9 +281,7 @@
       
         <tags>
             
-            <tag> 算法 </tag>
-            
-            <tag> 数据结构 </tag>
+            <tag> 算法与数据结构 </tag>
             
             <tag> 树 </tag>
             
@@ -272,6 +301,8 @@
       
       <categories>
           
+          <category> LeetCode </category>
+          
           <category> 算法与数据结构 </category>
           
       </categories>
@@ -279,9 +310,7 @@
       
         <tags>
             
-            <tag> 算法 </tag>
-            
-            <tag> 数据结构 </tag>
+            <tag> 算法与数据结构 </tag>
             
             <tag> 链表 </tag>
             
@@ -301,7 +330,7 @@
       
       <categories>
           
-          <category> 面试笔记 </category>
+          <category> 学习笔记 </category>
           
       </categories>
       
@@ -310,7 +339,7 @@
             
             <tag> Git </tag>
             
-            <tag> 面试笔记 </tag>
+            <tag> Linux </tag>
             
         </tags>
       
