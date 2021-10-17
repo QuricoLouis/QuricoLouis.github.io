@@ -66,9 +66,9 @@
     <category term="面试笔记" scheme="http://quricolouis.github.io/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
     
   </entry>
   
@@ -92,9 +92,9 @@
     <category term="面试笔记" scheme="http://quricolouis.github.io/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
     
   </entry>
   
@@ -118,11 +118,11 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
     
   </entry>
   
@@ -146,9 +146,9 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="java" scheme="http://quricolouis.github.io/tags/java/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
@@ -172,9 +172,9 @@
     <category term="面试笔记" scheme="http://quricolouis.github.io/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
     
   </entry>
   
@@ -200,9 +200,9 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
     
     <category term="分布式" scheme="http://quricolouis.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
@@ -230,9 +230,9 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
     
     <category term="分布式" scheme="http://quricolouis.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
@@ -258,9 +258,9 @@
     <category term="读书笔记" scheme="http://quricolouis.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
     
     <category term="JDK源码" scheme="http://quricolouis.github.io/tags/JDK%E6%BA%90%E7%A0%81/"/>
     
