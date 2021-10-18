@@ -6,7 +6,7 @@
   <link href="http://quricolouis.github.io/atom.xml" rel="self"/>
   
   <link href="http://quricolouis.github.io/"/>
-  <updated>2021-09-14T03:50:30.313Z</updated>
+  <updated>2021-10-18T14:10:04.748Z</updated>
   <id>http://quricolouis.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>算法与数据结构基础(Java)</title>
+    <link href="http://quricolouis.github.io/posts/6d6187f3.html"/>
+    <id>http://quricolouis.github.io/posts/6d6187f3.html</id>
+    <published>2021-10-17T16:11:50.634Z</published>
+    <updated>2021-10-18T14:10:04.748Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>@<a href="%E7%9B%AE%E5%BD%95">TOC</a></p><h2 id="1、数组"><a href="#1、数组" class="headerlink" title="1、数组"></a>1、数组</h2><p>初始化方法：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">int m = 5, n = 10;//初始化一个大小为 10 的 int 数组//其中值默认初始化为 0int[] nums = new int[n]//初始化一个 m * n 的二维布尔数组//其中的值默认初始化为 falseboolean[][] visited = new boolean[m][n]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>有的题目会以函数参数的形式传入，一般来说要在函数开头做一个非空检查，然后用索引下标访问其中的元素。</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">if (nums.length == 0) {return;}for (int i = 0; i &lt; nums.length; i++) {//访问 nums[i]}//增强 for 循环for (int num : nums) {//访问 num}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="2、字符串"><a href="#2、字符串" class="headerlink" title="2、字符串"></a>2、字符串</h2><p>Java的字符串不支持用 [ ] 直接访问其中的字符，而且不能直接修改，要用 toCharArray 转化成 char[ ] 类型后才能修改。  然后转化回 String 类型</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">String s1 = "hello world";//获取 s1[2] 中的字符char c = s1.charAt(2);char[] chars = s1.toCharArray();chars[1] = 'a';String s2 = new String(chars);//输出：hallo worldSystem.out.println(s2);//注意：一定要用 equals 方法判断字符串是否相同if (s1.equals(s2)) {//s1 和 s2 相同} else {//s1 和 s2 不相同}//字符串可以使用加号String s3 = s1 + "!";//输出：hallo world!System.out.println(s3);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>虽然字符串支持用 + 进行拼接，但是效率不高，不建议在 for 循环中使用。<strong>如果需要进行频繁的字符串拼接，推荐使用 StringBuilder</strong>：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">StringBuilder sb = new StringBuilder();for(char c = 'a'; c &lt;= 'f'; c++) {sb.append(c);}//append 方法支持拼接字符、字符串、数字等类型sb.append('g').append('hij').append(123);String res = sb.toString();//输出：abcdefghi123System.out.println(res);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>==注：字符串相等性比较。一定要用字符串的 equals 方法比较两个字符串是否相同，不要使用 == 比较，否则可能出现不易察觉的bug。==</p><h2 id="3、动态数组-ArrayList"><a href="#3、动态数组-ArrayList" class="headerlink" title="3、动态数组 ArrayList"></a>3、动态数组 ArrayList</h2><p>ArrayList 相当于把 Java 内置的数组类型做了包装，初始化方法：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//初始化一个存储 String 类型数据的动态数组ArrayList&lt;String&gt; strings = new ArrayList&lt;&gt;();//初始化一个存储 int 类型数据的动态数组ArrayList&lt;Integer&gt; nums = new ArrayList&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>常用方法(E 代表元素类型)：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断数组是否为空boolean isEmpty()//返回数组中元素的个数int size()//返回索引 index 的元素E get(int index)//在数组尾部添加元素 eboolean add(E e)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="4、双链表-LinkedList"><a href="#4、双链表-LinkedList" class="headerlink" title="4、双链表 LinkedList"></a>4、双链表 LinkedList</h2><p>ArrayList 列表底层是用数组实现的，而 LinkedList 底层是用双链表实现的，初始化方法：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//初始化一个存储 String 类型数据的双链表LinkedList&lt;String&gt; strings = new LinkedList&lt;&gt;();//初始化一个存储 int 类型数据的双链表LinkedList&lt;Integer&gt; nums = new LinkedList&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>常用方法(E 代表元素类型)：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断链表是否为空boolean isEmpty()//返回链表中元素的个数int size()//判断链表中是否存在元素 oboolean contains(Object o)//在链表尾部添加元素 eboolean add(e)//在链表头部添加元素 evoid addFirst(E e)//删除链表头部第一个元素E removeFirst()//删除链表尾部最后一个元素E removeLast()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="5、哈希表-HashMap"><a href="#5、哈希表-HashMap" class="headerlink" title="5、哈希表 HashMap"></a>5、哈希表 HashMap</h2><p>初始化方法：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//整数映射到字符串的哈希表HashMap&lt;Integer, String&gt; map = new HashMAp&lt;&gt;();//字符串映射到数组的哈希表HashMap&lt;String, int[]&gt; map = new HashMap&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>常用方法(K 代表键的类型，V代表值的类型)：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断哈希表中是否存在键 keyboolean containsKey(Object key)//获得键 key 对应的值，若 key 不存在，则返回nullV get(Object key)//将 key 和 value 键值对存入哈希表V put(K key, V value)//如果 key 存在，删除 key 并返回对应的值V remove(Object key)//获得 key 的值，如果 key 不存在，则返回 defaultValueV getOrDefault(Object key, V defaultValue)//获得哈希表中的所有 keySet&lt;K&gt; keySet()//如果 key 不存在，则将键值对 key 和value 存入哈希表//如果 key 存在，则什么都不做V putIfAbsent(K key, V value)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="6、哈希集合-HashSet"><a href="#6、哈希集合-HashSet" class="headerlink" title="6、哈希集合 HashSet"></a>6、哈希集合 HashSet</h2><p>初始化方法：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//新建一个存储 String 的哈希集合Set&lt;String&gt; set = new HahSet&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>常用方法(E 表示元素类型)：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//如果 e 不存在，则将 e 添加到哈希集合boolean add(E e)//判断元素 o 是否存在于哈希集合中boolean contains(Object o)//如果元素 o 存在，则删除元素 oboolean remove(Object o)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="7、队列-Queue"><a href="#7、队列-Queue" class="headerlink" title="7、队列 Queue"></a>7、队列 Queue</h2><p>Queue 是一个接口(Interface)，初始化：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//新建一个存储 String 的队列Queue&lt;String&gt; q = new LinkedList&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>常用方法（E 表示元素类型）：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断队列是否为空boolean isEmpty()//返回队列中元素的个数int size()//返回对头的元素E peek()//删除并返回队头的元素E poll()//将元素 e 插入队尾boolean offer(E e)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="8、堆栈-Stack"><a href="#8、堆栈-Stack" class="headerlink" title="8、堆栈 Stack"></a>8、堆栈 Stack</h2><p>初始化方法：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">Stack&lt;Integer&gt; s = new Stack&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>常用方法（E 表示元素类型）：</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断堆栈是否为空boolean isEmpty()//返回堆栈中元素的个数int size()//将元素压入栈顶E push(E item)//返回栈顶元素E peek()//删除并返回栈顶元素E pop()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+    <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
   
   <entry>
     <title>LRU缓存实现与原理</title>
@@ -66,9 +92,9 @@
     <category term="面试笔记" scheme="http://quricolouis.github.io/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
@@ -92,9 +118,9 @@
     <category term="面试笔记" scheme="http://quricolouis.github.io/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
@@ -118,11 +144,11 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
     
     <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
     
-    <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
@@ -146,9 +172,9 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="java" scheme="http://quricolouis.github.io/tags/java/"/>
-    
     <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="java" scheme="http://quricolouis.github.io/tags/java/"/>
     
   </entry>
   
@@ -172,9 +198,9 @@
     <category term="面试笔记" scheme="http://quricolouis.github.io/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="Big Data" scheme="http://quricolouis.github.io/tags/Big-Data/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
@@ -200,9 +226,9 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="分布式" scheme="http://quricolouis.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
@@ -230,9 +256,9 @@
     <category term="学习笔记" scheme="http://quricolouis.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="分布式" scheme="http://quricolouis.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
@@ -258,9 +284,9 @@
     <category term="读书笔记" scheme="http://quricolouis.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
     <category term="Java" scheme="http://quricolouis.github.io/tags/Java/"/>
+    
+    <category term="算法与数据结构" scheme="http://quricolouis.github.io/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="JDK源码" scheme="http://quricolouis.github.io/tags/JDK%E6%BA%90%E7%A0%81/"/>
     

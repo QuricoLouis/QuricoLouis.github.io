@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="海量数据处理计算及算法实现总结, QuricoLouis 软件工程 java后端开发 太原理工大学">
+    <meta name="keywords" content="算法与数据结构基础(Java), QuricoLouis 软件工程 java后端开发 太原理工大学">
     <meta name="description" content="本科 | 软件工程 | java后端开发">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>海量数据处理计算及算法实现总结 | QuricoLouis</title>
+    <title>算法与数据结构基础(Java) | QuricoLouis</title>
 
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/QuricoLouis/imgBed/blog/20210731104423.png">
 
@@ -470,12 +470,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928013627.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">海量数据处理计算及算法实现总结</h1>
+                    <h1 class="description center-align post-title">算法与数据结构基础(Java)</h1>
                 </div>
             </div>
         </div>
@@ -596,8 +596,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Big-Data/">
-                                <span class="chip bg-color">Big Data</span>
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                             <a href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
@@ -612,8 +612,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/" class="post-category">
-                                面试笔记
+                            <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                算法与数据结构
                             </a>
                         
                     </div>
@@ -625,28 +625,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-09-13
+                    2021-10-18
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-09-14
+                    2021-10-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    5 分
                 </div>
                 
 
@@ -669,160 +669,191 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>==此博客主要讲解海量数据处理计算及算法实现，了解海量数据处理方法可移步<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44797267/article/details/120228705?spm=1001.2014.3001.5501">海量数据处理方法总结</a>，了解数据处理问题可移步<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44797267/article/details/120252001?spm=1001.2014.3001.5501">海量数据处理问题总结</a>==</p>
-<h2 id="方法回顾"><a href="#方法回顾" class="headerlink" title="方法回顾"></a>方法回顾</h2><ol>
-<li>分而治之 / Hash 映射 + Hash 统计 + 堆 / 快速 / 归并排序</li>
-<li>双层桶划分</li>
-<li>BitMap / Bloom Filter</li>
-<li>Trie 树 / 数据库索引 / 倒排索引</li>
-<li>外排序</li>
-<li>分布式处理之Hadoop / Mapreduce</li>
-</ol>
-<h2 id="海量数据计算"><a href="#海量数据计算" class="headerlink" title="海量数据计算"></a>海量数据计算</h2><h3 id="计算容量"><a href="#计算容量" class="headerlink" title="计算容量"></a>计算容量</h3><p>在解决问题之前，要先计算一下海量数据需要占多大的容量。常见的单位换算如下：</p>
-<ul>
-<li>1 byte = 8 bit</li>
-<li>1 KB = $2^{10}$ byte = 1024 byte ≈ $10^3$ byte</li>
-<li>1 MB = $2^{20}$ byte ≈ $10^6$ byte</li>
-<li>1 GB = $2^{30}$ byte ≈ $10^9$ byte</li>
-<li>1 亿 = $10^8$</li>
-<li>1 个整数占 4 byte，1 亿个整数占 4 * $10^8$ byte ≈ 400 MB。</li>
-</ul>
-<h3 id="拆分"><a href="#拆分" class="headerlink" title="拆分"></a>拆分</h3><p>可以将海量数据拆分到多台机器上和拆分到多个文件上：</p>
-<ul>
-<li>如果数据量很大，无法放在一台机器上，就将数据拆分到多台机器上。这种方式可以让多台机器一起合作，从而使得问题的求解更加快速。但是也会导致系统更加复杂，而且需要考虑系统故障等问题；</li>
-<li>如果在程序运行时无法直接加载一个大文件到内存中，就将大文件拆分成小文件，分别对每个小文件进行求解。</li>
-</ul>
-<p>有以下策略进行拆分：</p>
-<ul>
-<li><strong>按出现的顺序拆分</strong>：当有新数据到达时，先放进当前机器，填满之后再将数据放到新增的机器上。这种方法的优点是<strong>充分利用系统的资源</strong>，因为每台机器都会尽可能被填满。缺点是需要一个查找表来保存数据到机器的映射，<strong>查找表可能会非常复杂并且非常大</strong>。<br><img src="https://img-blog.csdnimg.cn/da578d54cd944bab9b577b9af1afbcce.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></li>
-<li><strong>按散列值拆分</strong>：选取数据的主键 key，然后通过哈希取模 hash(key)%N 得到该数据应该拆分到的机器编号，其中 N 是机器的数量。优点是<strong>不需要使用查找表</strong>，缺点是可能会导致一台机器存储的数据过多，甚至超出它的最大容量。<br><img src="https://img-blog.csdnimg.cn/641f405f58a44c3ea2bf591480cdb51d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></li>
-<li><strong>按数据的实际含义拆分</strong>：例如一个社交网站系统，来自同一个地区的用户更有可能成为朋友，如果让同一个地区的用户尽可能存储在同一个机器上，那么在查找一个用户的好友信息时，就可以避免到多台机器上查找，从而降低延迟。缺点同样是需要使用查找表。<br><img src="https://img-blog.csdnimg.cn/e536362b9e9841a7a2fc7d57518328ac.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAUXVyaWNvTG91aXM=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></li>
-</ul>
-<h3 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h3><p>拆分之后的结果还只是局部结果，需要将局部结果汇总为整体的结果。</p>
-<blockquote>
-<p>注：大部分海量数据都可以使用 hash 取模来处理，因为同一个值 hash 取模后一定会分配到同一个位置。如果内存实在小，N 的值可以取大一些。再者，Hadoop 和 spark 也是处理海量数据的方案，不过非大数据方向应该不做要求。</p>
-</blockquote>
-<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><p>考虑到数据是海量的，那么就使用拆分的方式将数据拆分到多台机器上，分别在每台机器上使用 HashSet 存储。我们需要使得相同的数据拆分到相同的机器上，可以使用哈希取模的拆分方式进行实现。</p>
-<h3 id="BitSet"><a href="#BitSet" class="headerlink" title="BitSet"></a>BitSet</h3><p>如果海量数据是整数，并且范围不大时，就可以使用 BitSet 存储。通过构建一定大小的比特数组，并且让每个整数都映射到这个比特数组上，就可以很容易地知道某个整数是否已经存在。因为比特数组比整型数组小的多，所以通常情况下单机就能处理海量数据。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">class BitSet {
-    int[] bitset;
-    
-    public BitSet(int size) {
-        bitset = new int[(size &gt;&gt; 5) + 1]; // divide by 32
-    }
-    
-    boolean get(int pos) {
-        int wordNumber = (pos &gt;&gt; 5); // divide by 32
-        int bitNumber = (pos &amp; 0x1F); // mod 32
-        return (bitset[wordNumber] &amp; (1 &lt;&lt; bitNumber)) != 0;
-    }
-    
-    void set(int pos) {
-        int wordNumber = (pos &gt;&gt; 5); // divide by 32
-        int bitNumber = (pos &amp; 0x1F); // mod 32
-        bitset[wordNumber] |= 1 &lt;&lt; bitNumber;
-    }
- }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h3><ul>
-<li>布隆过滤器能够以极小的空间开销解决海量数据判重问题，但是会有一定的误判概率。它主要用在网页黑名单系统、垃圾邮件过滤系统、爬虫的网址判重系统。</li>
-<li>布隆过滤器也是使用 BitSet 存储数据，但是它进行了一定的改进，从而解除了 BitSet 要求数据的范围不大的限制。在存储时，它要求数据先经过 k 个哈希函得到 k 个位置，并将 BitSet 中对应位置设置为 1。在查找时，也需要先经过 k 个哈希函数得到 k 个位置，如果所有位置上都为 1，那么表示这个数据存在。</li>
-<li>由于哈希函数的特点，两个不同的数通过哈希函数得到的值可能相同。如果两个数通过 k 个哈希函数得到的值都相同，那么使用布隆过滤器会将这两个数判为相同。</li>
-<li>可以知道，令 k 和 m 都大一些会使得误判率降低，但是这会带来更高的时间和空间开销。</li>
-<li>布隆过滤器会误判，也就是将一个不存在的数判断为已经存在，这会造成一定的问题。例如在垃圾邮件过滤系统中，会将一个邮件误判为垃圾邮件，那么就收不到这个邮件。可以使用白名单的方式进行补救。</li>
-</ul>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class BloomFilter {
-    //你的布隆过滤器容量
-    private static final int DEFAULT_SIZE = 2 &lt;&lt; 28;
-    //bit数组，用来存放key
-    private static BitSet bitSet = new BitSet(DEFAULT_SIZE);
-    //后面hash函数会用到，用来生成不同的hash值，可随意设置，别问我为什么这么多8，图个吉利
-    private static final int[] ints = {1, 6, 16, 38, 58, 68};
+                <p>@<a href="%E7%9B%AE%E5%BD%95">TOC</a></p>
+<h2 id="1、数组"><a href="#1、数组" class="headerlink" title="1、数组"></a>1、数组</h2><p>初始化方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">int m = 5, n = 10;
 
-    //add方法，计算出key的hash值，并将对应下标置为true
-    public void add(Object key) {
-        Arrays.stream(ints).forEach(i -&gt; bitSet.set(hash(key, i)));
-    }
+//初始化一个大小为 10 的 int 数组
+//其中值默认初始化为 0
+int[] nums = new int[n]
 
-    //判断key是否存在，true不一定说明key存在，但是false一定说明不存在
-    public boolean isContain(Object key) {
-         boolean result = true;
-        for (int i : ints) {
-        	//短路与，只要有一个bit位为false，则返回false
-            result = result &amp;&amp; bitSet.get(hash(key, i));
-        }
-        return result;
-    }
-
-    //hash函数，借鉴了hashmap的扰动算法，强烈建议大家把这个hash算法看懂，这个设计真的牛皮加闪电
-    private int hash(Object key, int i) {
-        int h;
-        return key == null ? 0 : (i * (DEFAULT_SIZE - 1) &amp; ((h = key.hashCode()) ^ (h &gt;&gt;&gt; 16)));
-    }
+//初始化一个 m * n 的二维布尔数组
+//其中的值默认初始化为 false
+boolean[][] visited = new boolean[m][n]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>有的题目会以函数参数的形式传入，一般来说要在函数开头做一个非空检查，然后用索引下标访问其中的元素。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">if (nums.length == 0) {
+	return;
 }
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="前缀树-Trie"><a href="#前缀树-Trie" class="headerlink" title="前缀树(Trie)"></a>前缀树(Trie)</h3><p>字典树，又称单词查找树或键树，是一种树形结构，是一种哈希树的变种。典型应用是用于统计和排序大量的字符串（但不仅限于字符串），所以经常被搜索引擎系统用于文本词频统计。它的优点是：最大限度地减少无谓的字符串比较，查询效率比哈希表高。</p>
-<p>Trie 的核心思想是空间换时间。利用字符串的公共前缀来降低查询时间的开销以达到提高效率的目的。</p>
-<p>三个基本性质：</p>
-<ul>
-<li>根节点不包含字符，除根节点外每一个节点都只包含一个字符。</li>
-<li>从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串。</li>
-<li>每个节点的所有子节点包含的字符都不相同。</li>
-</ul>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">class Trie {
-    private class Node {
-        Node[] childs = new Node[26];
-        boolean isLeaf;
-    }
-    
-    private Node root = new Node();
-    
-    public Trie() {
-    }
-    
-    public void insert(String word) {
-        insert(word, root);
-    }
-    
-    private void insert(String word, Node node) {
-        if (node == null) return;
-        if (word.length() == 0) {
-            node.isLeaf = true;
-            return;
-        }
-        int index = indexForChar(word.charAt(0));
-        if (node.childs[index] == null) {
-            node.childs[index] = new Node();
-        }
-        insert(word.substring(1), node.childs[index]);
-    }
-    
-    public boolean search(String word) {
-        return search(word, root);
-    }
-    
-    private boolean search(String word, Node node) {
-        if (node == null) return false;
-        if (word.length() == 0) return node.isLeaf;
-        int index = indexForChar(word.charAt(0));
-        return search(word.substring(1), node.childs[index]);
-    }
-    
-    public boolean startsWith(String prefix) {
-        return startWith(prefix, root);
-    }
-    
-    private boolean startWith(String prefix, Node node) {
-        if (node == null) return false;
-        if (prefix.length() == 0) return true;
-        int index = indexForChar(prefix.charAt(0));
-        return startWith(prefix.substring(1), node.childs[index]);
-    }
-    
-    private int indexForChar(char c) {
-        return c - 'a';
-    }
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+for (int i = 0; i &lt; nums.length; i++) {
+	//访问 nums[i]
+}
+
+//增强 for 循环
+for (int num : nums) {
+	//访问 num
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2、字符串"><a href="#2、字符串" class="headerlink" title="2、字符串"></a>2、字符串</h2><p>Java的字符串不支持用 [ ] 直接访问其中的字符，而且不能直接修改，要用 toCharArray 转化成 char[ ] 类型后才能修改。  然后转化回 String 类型</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">String s1 = "hello world";
+//获取 s1[2] 中的字符
+char c = s1.charAt(2);
+
+char[] chars = s1.toCharArray();
+chars[1] = 'a';
+String s2 = new String(chars);
+//输出：hallo world
+System.out.println(s2);
+
+//注意：一定要用 equals 方法判断字符串是否相同
+if (s1.equals(s2)) {
+	//s1 和 s2 相同
+} else {
+	//s1 和 s2 不相同
+}
+
+//字符串可以使用加号
+String s3 = s1 + "!";
+//输出：hallo world!
+System.out.println(s3);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>虽然字符串支持用 + 进行拼接，但是效率不高，不建议在 for 循环中使用。<strong>如果需要进行频繁的字符串拼接，推荐使用 StringBuilder</strong>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">StringBuilder sb = new StringBuilder();
+
+for(char c = 'a'; c &lt;= 'f'; c++) {
+	sb.append(c);
+}
+
+//append 方法支持拼接字符、字符串、数字等类型
+sb.append('g').append('hij').append(123);
+String res = sb.toString();
+//输出：abcdefghi123
+System.out.println(res);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>==注：字符串相等性比较。一定要用字符串的 equals 方法比较两个字符串是否相同，不要使用 == 比较，否则可能出现不易察觉的bug。==</p>
+<h2 id="3、动态数组-ArrayList"><a href="#3、动态数组-ArrayList" class="headerlink" title="3、动态数组 ArrayList"></a>3、动态数组 ArrayList</h2><p>ArrayList 相当于把 Java 内置的数组类型做了包装，初始化方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//初始化一个存储 String 类型数据的动态数组
+ArrayList&lt;String&gt; strings = new ArrayList&lt;&gt;();
+
+//初始化一个存储 int 类型数据的动态数组
+ArrayList&lt;Integer&gt; nums = new ArrayList&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>常用方法(E 代表元素类型)：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断数组是否为空
+boolean isEmpty()
+
+//返回数组中元素的个数
+int size()
+
+//返回索引 index 的元素
+E get(int index)
+
+//在数组尾部添加元素 e
+boolean add(E e)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="4、双链表-LinkedList"><a href="#4、双链表-LinkedList" class="headerlink" title="4、双链表 LinkedList"></a>4、双链表 LinkedList</h2><p>ArrayList 列表底层是用数组实现的，而 LinkedList 底层是用双链表实现的，初始化方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//初始化一个存储 String 类型数据的双链表
+LinkedList&lt;String&gt; strings = new LinkedList&lt;&gt;();
+
+//初始化一个存储 int 类型数据的双链表
+LinkedList&lt;Integer&gt; nums = new LinkedList&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>常用方法(E 代表元素类型)：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断链表是否为空
+boolean isEmpty()
+
+//返回链表中元素的个数
+int size()
+
+//判断链表中是否存在元素 o
+boolean contains(Object o)
+
+//在链表尾部添加元素 e
+boolean add(e)
+
+//在链表头部添加元素 e
+void addFirst(E e)
+
+//删除链表头部第一个元素
+E removeFirst()
+
+//删除链表尾部最后一个元素
+E removeLast()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="5、哈希表-HashMap"><a href="#5、哈希表-HashMap" class="headerlink" title="5、哈希表 HashMap"></a>5、哈希表 HashMap</h2><p>初始化方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//整数映射到字符串的哈希表
+HashMap&lt;Integer, String&gt; map = new HashMAp&lt;&gt;();
+
+//字符串映射到数组的哈希表
+HashMap&lt;String, int[]&gt; map = new HashMap&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>常用方法(K 代表键的类型，V代表值的类型)：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断哈希表中是否存在键 key
+boolean containsKey(Object key)
+
+//获得键 key 对应的值，若 key 不存在，则返回null
+V get(Object key)
+
+//将 key 和 value 键值对存入哈希表
+V put(K key, V value)
+
+//如果 key 存在，删除 key 并返回对应的值
+V remove(Object key)
+
+//获得 key 的值，如果 key 不存在，则返回 defaultValue
+V getOrDefault(Object key, V defaultValue)
+
+//获得哈希表中的所有 key
+Set&lt;K&gt; keySet()
+
+//如果 key 不存在，则将键值对 key 和value 存入哈希表
+//如果 key 存在，则什么都不做
+V putIfAbsent(K key, V value)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="6、哈希集合-HashSet"><a href="#6、哈希集合-HashSet" class="headerlink" title="6、哈希集合 HashSet"></a>6、哈希集合 HashSet</h2><p>初始化方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//新建一个存储 String 的哈希集合
+Set&lt;String&gt; set = new HahSet&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>常用方法(E 表示元素类型)：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//如果 e 不存在，则将 e 添加到哈希集合
+boolean add(E e)
+
+//判断元素 o 是否存在于哈希集合中
+boolean contains(Object o)
+
+//如果元素 o 存在，则删除元素 o
+boolean remove(Object o)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="7、队列-Queue"><a href="#7、队列-Queue" class="headerlink" title="7、队列 Queue"></a>7、队列 Queue</h2><p>Queue 是一个接口(Interface)，初始化：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//新建一个存储 String 的队列
+Queue&lt;String&gt; q = new LinkedList&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>常用方法（E 表示元素类型）：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断队列是否为空
+boolean isEmpty()
+
+//返回队列中元素的个数
+int size()
+
+//返回对头的元素
+E peek()
+
+//删除并返回队头的元素
+E poll()
+
+//将元素 e 插入队尾
+boolean offer(E e)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="8、堆栈-Stack"><a href="#8、堆栈-Stack" class="headerlink" title="8、堆栈 Stack"></a>8、堆栈 Stack</h2><p>初始化方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">Stack&lt;Integer&gt; s = new Stack&lt;&gt;();<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>常用方法（E 表示元素类型）：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">//判断堆栈是否为空
+boolean isEmpty()
+
+//返回堆栈中元素的个数
+int size()
+
+//将元素压入栈顶
+E push(E item)
+
+//返回栈顶元素
+E peek()
+
+//删除并返回栈顶元素
+E pop()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
 
                 
@@ -850,7 +881,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://QuricoLouis.github.io/posts/62e5db59.html">http://QuricoLouis.github.io/posts/62e5db59.html</a>
+                    <a href="http://QuricoLouis.github.io/posts/6d6187f3.html">http://QuricoLouis.github.io/posts/6d6187f3.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -888,8 +919,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Big-Data/">
-                                    <span class="chip bg-color">Big Data</span>
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
                                 <a href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
@@ -1365,9 +1396,64 @@ new Valine({
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/posts/6d6187f3.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020704.jpg" class="responsive-img" alt="算法与数据结构基础(Java)">
+                        
+                        <span class="card-title">算法与数据结构基础(Java)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            算法与数据结构基础
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                    算法与数据结构
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                        <span class="chip bg-color">算法与数据结构</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/posts/407123ef.html">
                     <div class="card-image">
@@ -1385,9 +1471,9 @@ new Valine({
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1417,59 +1503,6 @@ new Valine({
                     
                     <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
                         <span class="chip bg-color">学习笔记</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/posts/a3ce51c4.html">
-                    <div class="card-image">
-                        
-                        
-                        <img src="https://cdn.jsdelivr.net/gh/LuckyZmj/imgbed@master/posts/20200928020152.jpg" class="responsive-img" alt="海量数据处理问题总结">
-                        
-                        <span class="card-title">海量数据处理问题总结</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            海量数据处理，是基于海量数据上的存储、处理、操作。此博客对海量数据处理常用问题进行了归纳。
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-13
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    面试笔记
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Big-Data/">
-                        <span class="chip bg-color">Big Data</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">算法与数据结构</span>
                     </a>
                     
                 </div>
